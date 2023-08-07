@@ -7,9 +7,9 @@ part 'verifying_paymaster_result.g.dart';
 class VerifyingPaymasterResult with _$VerifyingPaymasterResult {
   factory VerifyingPaymasterResult({
     required String paymasterAndData,
-    required BigInt preVerificationGas,
-    required BigInt verificationGasLimit,
-    required BigInt callGasLimit,
+    required String preVerificationGas,
+    required String verificationGasLimit,
+    required String callGasLimit,
   }) = _VerifyingPaymasterResult;
 
   factory VerifyingPaymasterResult.fromJson(Map<String, dynamic> json) =>

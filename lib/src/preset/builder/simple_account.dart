@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:userop/src/utils/crypto.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/json_rpc.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class SimpleAccount extends UserOperationBuilder {
     this.credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
-  }) {
+  }) : super() {
     final web3client = Web3Client.custom(BundlerJsonRpcProvider(
       rpcUrl,
       http.Client(),
@@ -52,11 +51,14 @@ class SimpleAccount extends UserOperationBuilder {
   }
 
   Future<void> resolveAccount(ctx) async {
-    ctx.op.nonce = await entryPoint.getNonce(ctx.op.sender, BigInt.zero);
+    ctx.op.nonce = await entryPoint.getNonce(
+      EthereumAddress.fromHex(ctx.op.sender),
+      BigInt.zero,
+    );
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
 
-  static Future<IUserOperationBuilder> init(
+  static Future<SimpleAccount> init(
     EthPrivateKey credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
@@ -64,14 +66,6 @@ class SimpleAccount extends UserOperationBuilder {
     final instance = SimpleAccount(credentials, rpcUrl, opts: opts);
 
     try {
-      print('createAccountData ${bytesToHex(
-        instance.simpleAccountFactory.self.function('createAccount').encodeCall(
-          [
-            credentials.address,
-            opts?.salt ?? BigInt.zero,
-          ],
-        ),
-      )}');
       final List<String> inputArr = [
         instance.simpleAccountFactory.self.address.toString(),
         bytesToHex(
@@ -86,9 +80,8 @@ class SimpleAccount extends UserOperationBuilder {
           include0x: true,
         ),
       ];
-      final String input =
+      instance.initCode =
           '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
-      instance.initCode = input;
       final ethCallData = bytesToHex(
         instance.entryPoint.self.function('getSenderAddress').encodeCall([
           hexToBytes(instance.initCode),
@@ -103,7 +96,6 @@ class SimpleAccount extends UserOperationBuilder {
       ]);
       throw rpcReponse;
     } on RPCError catch (e) {
-      print(e.message);
       final smartContractAddress = '0x${(e.data as String).lastChars(40)}';
       instance.proxy = simple_account_impl.SimpleAccount(
         address: EthereumAddress.fromHex(smartContractAddress),
@@ -113,10 +105,13 @@ class SimpleAccount extends UserOperationBuilder {
 
     final baseInstance = instance
         .useDefaults({
-          'sender': instance.proxy.self.address.hexEip55,
-          'signature': bytesToHex(credentials.signPersonalMessageToUint8List(
-            Uint8List.fromList('0xdead'.codeUnits),
-          )),
+          'sender': instance.proxy.self.address.toString(),
+          'signature': bytesToHex(
+            credentials.signPersonalMessageToUint8List(
+              Uint8List.fromList('0xdead'.codeUnits),
+            ),
+            include0x: true,
+          ),
         })
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
@@ -129,29 +124,39 @@ class SimpleAccount extends UserOperationBuilder {
             opts?.paymasterMiddleware as UserOperationMiddlewareFn)
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
-                instance.simpleAccountFactory.client, instance.provider),
+              instance.simpleAccountFactory.client,
+              instance.provider,
+            ),
           );
 
-    return withPM.useMiddleware(eOASignature(instance.credentials));
+    return withPM.useMiddleware(eOASignature(instance.credentials))
+        as SimpleAccount;
   }
 
-  execute(String to, BigInt value, Uint8List c) async {
-    final List<dynamic> inputArr = [
-      EthereumAddress.fromHex(to),
-      hexZeroPad(hexlify(value), 32),
-      bytesToHex(c),
-    ];
-    final String input =
-        '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
-    print('input: $input');
-    final data = await proxy.execute(
-      EthereumAddress.fromHex(to),
-      value,
-      c,
-      credentials: credentials,
+  Future<IUserOperationBuilder> execute(
+    EthereumAddress to,
+    BigInt value,
+    Uint8List data,
+  ) async {
+    return setCallData(
+      bytesToHex(
+        proxy.self.function('execute').encodeCall(
+          [to, value, data],
+        ),
+        include0x: true,
+      ),
     );
-    print('data: $data');
-    setCallData(data);
-    return this;
+  }
+
+  Future<IUserOperationBuilder> executeBatch(
+    List<EthereumAddress> to,
+    List<Uint8List> data,
+  ) async {
+    return setCallData(
+      bytesToHex(
+        proxy.self.function('executeBatch').encodeCall([to, data]),
+        include0x: true,
+      ),
+    );
   }
 }

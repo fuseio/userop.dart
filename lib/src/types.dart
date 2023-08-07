@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:userop/src/utils/crypto.dart';
 import 'package:userop/userop.dart';
 
+import 'utils/crypto.dart';
+
 IUserOperation defaultUserOp = IUserOperation(
-  sender: EthereumAddress.fromHex('0x0000000000000000000000000000000000000000'),
+  sender: AddressZero,
   nonce: BigInt.zero,
   initCode: '0x',
   callData: '0x',
@@ -22,7 +23,7 @@ class UserOperationEventEvent {
 }
 
 class IUserOperation {
-  late EthereumAddress sender;
+  late String sender;
   late BigInt nonce;
   late String initCode;
   late String callData;
@@ -34,21 +35,19 @@ class IUserOperation {
   late String paymasterAndData;
   late String signature;
 
-  IUserOperation opToJson() {
+  Map<String, dynamic> opToJson() {
     Map<String, dynamic> result = {};
 
     toJson().forEach((key, value) {
       var val = value;
-      if (val is! String || !val.startsWith('0x')) {
-        print('key: $key, val: $val is not hex: ${val is! String}');
-        // Assuming that the value is an integer and you want to convert it to a hex string
-        // You'll need to adjust this code based on the actual types and conversion logic
+      if (val is BigInt) {
         val = hexlify(val);
+      } else if (val is EthereumAddress) {
+        val = val.toString();
       }
       result[key] = val;
     });
-
-    return IUserOperation.fromJson(result);
+    return result;
   }
 
   IUserOperation({
@@ -79,22 +78,6 @@ class IUserOperation {
         signature: json["signature"],
       );
 
-  factory IUserOperation.fromMap(Map<String, dynamic> map) {
-    return IUserOperation(
-      sender: map['sender'],
-      nonce: BigInt.from(map['nonce']),
-      initCode: map['initCode'],
-      callData: map['callData'],
-      callGasLimit: BigInt.from(map['callGasLimit']),
-      verificationGasLimit: BigInt.from(map['verificationGasLimit']),
-      preVerificationGas: BigInt.from(map['preVerificationGas']),
-      maxFeePerGas: BigInt.from(map['maxFeePerGas']),
-      maxPriorityFeePerGas: BigInt.from(map['maxPriorityFeePerGas']),
-      paymasterAndData: map['paymasterAndData'],
-      signature: map['signature'],
-    );
-  }
-
   Map<String, dynamic> toJson() => {
         "sender": sender,
         "nonce": nonce,
@@ -124,7 +107,7 @@ abstract class IUserOperationBuilder {
   String getSignature();
   IUserOperation getOp();
 
-  IUserOperationBuilder setSender(EthereumAddress address);
+  IUserOperationBuilder setSender(String address);
   IUserOperationBuilder setNonce(BigInt nonce);
   IUserOperationBuilder setInitCode(String code);
   IUserOperationBuilder setCallData(String data);
@@ -149,8 +132,6 @@ abstract class IUserOperationBuilder {
   );
 
   IUserOperationBuilder resetOp();
-
-  // IUserOperationBuilder execute(String to, BigInt value, Uin);
 }
 
 typedef UserOperationMiddlewareFn = Future<void> Function(
@@ -183,10 +164,10 @@ class ISendUserOperationOpts {
 }
 
 class ISendUserOperationResponse {
-  late String userOpHash;
-  late Future<UserOperationEventEvent?> Function() wait;
+  final String userOpHash;
+  final Future<FilterEvent?> Function() wait;
 
-  ISendUserOperationResponse(String userOpHash, Future<void> Function() param1);
+  ISendUserOperationResponse(this.userOpHash, this.wait);
 }
 
 class IPresetBuilderOpts {

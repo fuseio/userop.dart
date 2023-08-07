@@ -10,17 +10,18 @@ UserOperationMiddlewareFn verifyingPaymaster(
   return (ctx) async {
     ctx.op.verificationGasLimit = ctx.op.verificationGasLimit * BigInt.from(3);
 
-    final result = await provider.call(
+    final rpcResponse = await provider.call(
       'pm_sponsorUserOperation',
-      [ctx.op.toJson(), ctx.entryPoint, context],
+      [ctx.op.opToJson(), ctx.entryPoint.toString(), context],
     );
+
     final pm = VerifyingPaymasterResult.fromJson(
-      result as Map<String, dynamic>,
+      rpcResponse.result as Map<String, dynamic>,
     );
 
     ctx.op.paymasterAndData = pm.paymasterAndData;
-    ctx.op.preVerificationGas = pm.preVerificationGas;
-    ctx.op.verificationGasLimit = pm.verificationGasLimit;
-    ctx.op.callGasLimit = pm.callGasLimit;
+    ctx.op.preVerificationGas = BigInt.parse(pm.preVerificationGas);
+    ctx.op.verificationGasLimit = BigInt.parse(pm.verificationGasLimit);
+    ctx.op.callGasLimit = BigInt.parse(pm.callGasLimit);
   };
 }

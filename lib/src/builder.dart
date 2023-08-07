@@ -18,24 +18,15 @@ class UserOperationBuilder implements IUserOperationBuilder {
 
   Map<String, dynamic> resolveFields(Map<String, dynamic> op) {
     final obj = {
-      'sender':
-          op['sender'] != null ? EthereumAddress.fromHex(op['sender']) : null,
-      'nonce': op['nonce'] != null ? BigInt.parse(op['nonce']) : null,
+      'sender': op['sender'],
+      'nonce': op['nonce'],
       'initCode': op['initCode'],
       'callData': op['callData'],
-      'callGasLimit':
-          op['callGasLimit'] != null ? BigInt.parse(op['callGasLimit']) : null,
-      'verificationGasLimit': op['verificationGasLimit'] != null
-          ? BigInt.parse(op['verificationGasLimit'])
-          : null,
-      'preVerificationGas': op['preVerificationGas'] != null
-          ? BigInt.parse(op['preVerificationGas'])
-          : null,
-      'maxFeePerGas':
-          op['maxFeePerGas'] != null ? BigInt.parse(op['maxFeePerGas']) : null,
-      'maxPriorityFeePerGas': op['maxPriorityFeePerGas'] != null
-          ? BigInt.parse(op['maxPriorityFeePerGas'])
-          : null,
+      'callGasLimit': op['callGasLimit'],
+      'verificationGasLimit': op['verificationGasLimit'],
+      'preVerificationGas': op['preVerificationGas'],
+      'maxFeePerGas': op['maxFeePerGas'],
+      'maxPriorityFeePerGas': op['maxPriorityFeePerGas'],
       'paymasterAndData': op['paymasterAndData'],
       'signature': op['signature'],
     };
@@ -107,7 +98,7 @@ class UserOperationBuilder implements IUserOperationBuilder {
   }
 
   @override
-  IUserOperationBuilder setSender(EthereumAddress address) {
+  IUserOperationBuilder setSender(String address) {
     _currentOp.sender = address;
     return this;
   }
@@ -214,7 +205,7 @@ class UserOperationBuilder implements IUserOperationBuilder {
     }
 
     setPartial(ctx.op.toJson());
-    return _currentOp.opToJson();
+    return _currentOp;
   }
 
   @override

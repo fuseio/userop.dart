@@ -34,10 +34,9 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 
 Future<Map<String, dynamic>> legacyGasPrice(Web3Client client) async {
   final gas = await client.getGasPrice();
-  print('gas price: $gas');
   return {
     'maxFeePerGas': gas.getInWei,
-    'maxPriorityFeePerGas': gas.getInWei
+    'maxPriorityFeePerGas': gas.getInWei,
   };
 }
 
@@ -54,8 +53,6 @@ UserOperationMiddlewareFn getGasPrice(
       return;
     } catch (error) {
       eip1559Error = error;
-      print(
-          'getGas: eth_maxPriorityFeePerGas failed, falling back to legacy gas price.');
     }
 
     try {

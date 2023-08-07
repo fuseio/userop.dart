@@ -8,6 +8,7 @@ UserOperationMiddlewareFn eOASignature(EthPrivateKey credentials) {
       credentials.signPersonalMessageToUint8List(
         ctx.getUserOpHash(),
       ),
+      include0x: true,
     );
   };
 }

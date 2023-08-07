@@ -22,9 +22,9 @@ VerifyingPaymasterResult _$VerifyingPaymasterResultFromJson(
 /// @nodoc
 mixin _$VerifyingPaymasterResult {
   String get paymasterAndData => throw _privateConstructorUsedError;
-  BigInt get preVerificationGas => throw _privateConstructorUsedError;
-  BigInt get verificationGasLimit => throw _privateConstructorUsedError;
-  BigInt get callGasLimit => throw _privateConstructorUsedError;
+  String get preVerificationGas => throw _privateConstructorUsedError;
+  String get verificationGasLimit => throw _privateConstructorUsedError;
+  String get callGasLimit => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,9 +40,9 @@ abstract class $VerifyingPaymasterResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String paymasterAndData,
-      BigInt preVerificationGas,
-      BigInt verificationGasLimit,
-      BigInt callGasLimit});
+      String preVerificationGas,
+      String verificationGasLimit,
+      String callGasLimit});
 }
 
 /// @nodoc
@@ -72,15 +72,15 @@ class _$VerifyingPaymasterResultCopyWithImpl<$Res,
       preVerificationGas: null == preVerificationGas
           ? _value.preVerificationGas
           : preVerificationGas // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
       verificationGasLimit: null == verificationGasLimit
           ? _value.verificationGasLimit
           : verificationGasLimit // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
       callGasLimit: null == callGasLimit
           ? _value.callGasLimit
           : callGasLimit // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
     ) as $Val);
   }
 }
@@ -96,9 +96,9 @@ abstract class _$$_VerifyingPaymasterResultCopyWith<$Res>
   @useResult
   $Res call(
       {String paymasterAndData,
-      BigInt preVerificationGas,
-      BigInt verificationGasLimit,
-      BigInt callGasLimit});
+      String preVerificationGas,
+      String verificationGasLimit,
+      String callGasLimit});
 }
 
 /// @nodoc
@@ -126,15 +126,15 @@ class __$$_VerifyingPaymasterResultCopyWithImpl<$Res>
       preVerificationGas: null == preVerificationGas
           ? _value.preVerificationGas
           : preVerificationGas // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
       verificationGasLimit: null == verificationGasLimit
           ? _value.verificationGasLimit
           : verificationGasLimit // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
       callGasLimit: null == callGasLimit
           ? _value.callGasLimit
           : callGasLimit // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as String,
     ));
   }
 }
@@ -154,11 +154,11 @@ class _$_VerifyingPaymasterResult implements _VerifyingPaymasterResult {
   @override
   final String paymasterAndData;
   @override
-  final BigInt preVerificationGas;
+  final String preVerificationGas;
   @override
-  final BigInt verificationGasLimit;
+  final String verificationGasLimit;
   @override
-  final BigInt callGasLimit;
+  final String callGasLimit;
 
   @override
   String toString() {
@@ -203,9 +203,9 @@ class _$_VerifyingPaymasterResult implements _VerifyingPaymasterResult {
 abstract class _VerifyingPaymasterResult implements VerifyingPaymasterResult {
   factory _VerifyingPaymasterResult(
       {required final String paymasterAndData,
-      required final BigInt preVerificationGas,
-      required final BigInt verificationGasLimit,
-      required final BigInt callGasLimit}) = _$_VerifyingPaymasterResult;
+      required final String preVerificationGas,
+      required final String verificationGasLimit,
+      required final String callGasLimit}) = _$_VerifyingPaymasterResult;
 
   factory _VerifyingPaymasterResult.fromJson(Map<String, dynamic> json) =
       _$_VerifyingPaymasterResult.fromJson;
@@ -213,11 +213,11 @@ abstract class _VerifyingPaymasterResult implements VerifyingPaymasterResult {
   @override
   String get paymasterAndData;
   @override
-  BigInt get preVerificationGas;
+  String get preVerificationGas;
   @override
-  BigInt get verificationGasLimit;
+  String get verificationGasLimit;
   @override
-  BigInt get callGasLimit;
+  String get callGasLimit;
   @override
   @JsonKey(ignore: true)
   _$$_VerifyingPaymasterResultCopyWith<_$_VerifyingPaymasterResult>
