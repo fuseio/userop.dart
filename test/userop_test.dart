@@ -24,7 +24,7 @@ void main() {
             equals(EthereumAddress.fromHex(
                     '0x0000000000000000000000000000000000000000')
                 .toString()));
-        expect(builder.setSender(mockValue).getSender(),
+        expect(builder.setSender(mockValue.toString()).getSender(),
             equals(mockValue.toString()));
       });
 
@@ -36,7 +36,9 @@ void main() {
       test('Throws error via setter on bad values', () {
         final mockValue = '0xdead';
 
-        expect(() => builder.setSender(EthereumAddress.fromHex(mockValue)),
+        expect(
+            () => builder
+                .setSender(EthereumAddress.fromHex(mockValue).toString()),
             throwsArgumentError);
       });
 
@@ -75,7 +77,7 @@ void main() {
     const MOCK_BYTES_1 = '0xdead';
 
     mockMW1(IUserOperationMiddlewareCtx ctx) async {
-      return ctx.op.paymasterAndData = MOCK_BYTES_1;
+      ctx.op.paymasterAndData = MOCK_BYTES_1;
     }
 
     mockMW2(IUserOperationMiddlewareCtx ctx) async {
@@ -84,21 +86,24 @@ void main() {
     }
 
     test('Should apply all changes from middleware functions', () async {
-      final builder = UserOperationBuilder()
-        ..useMiddleware(mockMW1)
-        ..useMiddleware(mockMW2);
+      final builder =
+          UserOperationBuilder().useMiddleware(mockMW1).useMiddleware(mockMW2);
 
       final entryPoint = ERC4337.ENTRY_POINT;
-
+      final actual = await builder.buildOp(
+        EthereumAddress.fromHex(entryPoint),
+        BigInt.parse('0x1'),
+      );
+      final matcher = UserOperationBuilder().useDefaults({
+        ...defaultUserOp.toJson(),
+        'paymasterAndData': MOCK_BYTES_1,
+        'maxFeePerGas': mockMaxFeePerGas,
+        'maxPriorityFeePerGas': mockMaxPriorityFeePerGas,
+      }).getOp();
       expect(
-          await builder.buildOp(
-              EthereumAddress.fromHex(entryPoint), BigInt.parse('0x1')),
-          equals(IUserOperation.fromJson({
-            ...defaultUserOp.toJson(),
-            'paymasterAndData': MOCK_BYTES_1,
-            'maxFeePerGas': mockMaxFeePerGas,
-            'maxPriorityFeePerGas': mockMaxPriorityFeePerGas,
-          }).opToJson()));
+        actual.toJson().toString(),
+        equals(matcher.toJson().toString()),
+      );
     });
 
     test('Should forget middleware on resetMiddleware', () async {
@@ -108,10 +113,15 @@ void main() {
         ..resetMiddleware();
 
       expect(
-          await builder.buildOp(mockValue, BigInt.parse('0x1')),
-          equals(IUserOperation.fromJson({
+        (await builder.buildOp(mockValue, BigInt.parse('0x1')))
+            .toJson()
+            .toString(),
+        equals(
+          IUserOperation.fromJson({
             ...defaultUserOp.toJson(),
-          }).toJson()));
+          }).toJson().toString(),
+        ),
+      );
     });
   });
 }
