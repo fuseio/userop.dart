@@ -2,9 +2,6 @@ import 'package:test/test.dart';
 import 'package:userop/src/types.dart';
 import 'package:userop/userop.dart';
 
-const MOCK_BYTES_1 = '0xdead';
-const MOCK_BYTES_2 = '0xbeef';
-
 void main() {
   final mockValue =
       EthereumAddress.fromHex('0x0000000000000000000000000000000000000000');
@@ -69,6 +66,52 @@ void main() {
 
       expect(builder.resetDefaults().resetOp().getSender(),
           equals(mockValue.toString()));
+    });
+  });
+
+  group('BuildOp', () {
+    final mockMaxFeePerGas = BigInt.zero;
+    final mockMaxPriorityFeePerGas = BigInt.zero;
+    const MOCK_BYTES_1 = '0xdead';
+
+    mockMW1(IUserOperationMiddlewareCtx ctx) async {
+      return ctx.op.paymasterAndData = MOCK_BYTES_1;
+    }
+
+    mockMW2(IUserOperationMiddlewareCtx ctx) async {
+      ctx.op.maxFeePerGas = mockMaxFeePerGas;
+      ctx.op.maxPriorityFeePerGas = mockMaxPriorityFeePerGas;
+    }
+
+    test('Should apply all changes from middleware functions', () async {
+      final builder = UserOperationBuilder()
+        ..useMiddleware(mockMW1)
+        ..useMiddleware(mockMW2);
+
+      final entryPoint = ERC4337.ENTRY_POINT;
+
+      expect(
+          await builder.buildOp(
+              EthereumAddress.fromHex(entryPoint), BigInt.parse('0x1')),
+          equals(IUserOperation.fromJson({
+            ...defaultUserOp.toJson(),
+            'paymasterAndData': MOCK_BYTES_1,
+            'maxFeePerGas': mockMaxFeePerGas,
+            'maxPriorityFeePerGas': mockMaxPriorityFeePerGas,
+          }).opToJson()));
+    });
+
+    test('Should forget middleware on resetMiddleware', () async {
+      final builder = UserOperationBuilder()
+        ..useMiddleware(mockMW1)
+        ..useMiddleware(mockMW2)
+        ..resetMiddleware();
+
+      expect(
+          await builder.buildOp(mockValue, BigInt.parse('0x1')),
+          equals(IUserOperation.fromJson({
+            ...defaultUserOp.toJson(),
+          }).toJson()));
     });
   });
 }
