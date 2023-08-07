@@ -9,7 +9,6 @@ environment:
 dependencies:
   decimal: ^2.3.3
   dio: ^5.3.0
-  faker_dart: ^0.2.1
   freezed_annotation: ^2.4.1
   http: ^1.1.0
   json_annotation: ^4.8.1
