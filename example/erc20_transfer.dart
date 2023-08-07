@@ -1,13 +1,15 @@
 import 'dart:io';
 
 import 'package:userop/src/types.dart';
+import 'package:userop/src/utils/contracts.dart';
 import 'package:userop/userop.dart';
 // import 'package:http/http.dart' as http;
-import 'package:web3dart/crypto.dart';
+// import 'package:web3dart/crypto.dart';
 
 Future<void> main(List<String> arguments) async {
-  final targetAddress = EthereumAddress.fromHex(arguments[0]);
-  final amount = BigInt.parse(arguments[1]);
+  final tokenAddress = EthereumAddress.fromHex(arguments[0]);
+  final targetAddress = EthereumAddress.fromHex(arguments[1]);
+  final amount = BigInt.parse(arguments[2]);
   final signingKey = EthPrivateKey.fromHex(
     'YOUR_PRIVATE_KEY',
   );
@@ -28,22 +30,31 @@ Future<void> main(List<String> arguments) async {
 
   final IClientOpts iClientOpts = IClientOpts()
     ..overrideBundlerRpc = bundlerRPC;
-  final client = await Client.init(
-    bundlerRPC,
-    opts: iClientOpts,
-  );
+
+  final client = await Client.init(bundlerRPC, opts: iClientOpts);
+
   final ISendUserOperationOpts sendOpts = ISendUserOperationOpts()
     ..dryRun = false
     ..onBuild = (IUserOperation ctx) async {
-      print("Signed UserOperation: ${ctx.sender}");
+      print("Signed UserOperation");
     };
 
-  final res = await client.sendUserOperation(
-    await simpleAccount.execute(
-      targetAddress,
-      amount,
-      hexToBytes('0x'),
+  final userOp = await simpleAccount.execute(
+    tokenAddress,
+    BigInt.zero,
+    ContractsHelper.encodedDataForContractCall(
+      'ERC20',
+      tokenAddress.toString(),
+      'transfer',
+      [
+        targetAddress,
+        amount,
+      ],
+      include0x: true,
     ),
+  );
+  final res = await client.sendUserOperation(
+    userOp,
     opts: sendOpts,
   );
   print('UserOpHash: ${res.userOpHash}');

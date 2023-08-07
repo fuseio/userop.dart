@@ -3,6 +3,7 @@ import 'package:userop/src/constants/erc_4337.dart';
 import 'package:userop/src/context.dart';
 import 'package:userop/src/typechain/EntryPoint.g.dart';
 import 'package:userop/src/types.dart';
+import 'package:web3dart/crypto.dart';
 import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -41,9 +42,7 @@ class Client implements IClient {
 
   static Future<IClient> init(String rpcUrl, {IClientOpts? opts}) async {
     final instance = Client(rpcUrl, opts: opts);
-    instance.chainId = await instance.web3client.getChainId().then(
-          (network) => network,
-        );
+    instance.chainId = await instance.web3client.getChainId();
 
     return instance;
   }
@@ -65,33 +64,48 @@ class Client implements IClient {
     opts?.onBuild?.call(op);
 
     final String userOpHash = dryRun
-        ? UserOperationMiddlewareCtx(op, entryPoint.self.address, chainId)
-            .getUserOpHash()
-            .toString()
+        ? bytesToHex(
+            UserOperationMiddlewareCtx(op, entryPoint.self.address, chainId)
+                .getUserOpHash(),
+            include0x: true,
+          )
         : (await jsonRpc("eth_sendUserOperation", [
-            op,
-            entryPoint.self.address,
-          ])) as String;
+            op.opToJson(),
+            entryPoint.self.address.toString(),
+          ]))
+            .result as String;
     builder.resetOp();
 
     return ISendUserOperationResponse(
       userOpHash,
       () async {
         if (dryRun) {
-          return;
+          return null;
         }
 
-        // TODO: implement wait
-        // final end = DateTime.now().millisecondsSinceEpoch + waitTimeoutMs;
-        // final block = await web3client.getBlockNumber();
-        // while (DateTime.now().millisecondsSinceEpoch < end) {
-        // final a = block - 100;
-        // entryPoint.userOperationEventEvents(
-        //   fromBlock: Math.max(0, a),
-        // );
-        // }
+        final end = DateTime.now().millisecondsSinceEpoch + waitTimeoutMs;
+        final block = await web3client.getBlockNumber();
+        while (DateTime.now().millisecondsSinceEpoch < end) {
+          final userOperationEvent =
+              entryPoint.self.event('UserOperationEvent');
+          final sub = await web3client
+              .events(
+                FilterOptions.events(
+                  contract: entryPoint.self,
+                  event: userOperationEvent,
+                  fromBlock: BlockNum.exact(block - 100),
+                ),
+              )
+              .take(1)
+              .first;
+          if (sub.transactionHash != null) {
+            return sub;
+          }
 
-        return;
+          await Future.delayed(Duration(milliseconds: waitIntervalMs));
+        }
+
+        return null;
       },
     );
   }

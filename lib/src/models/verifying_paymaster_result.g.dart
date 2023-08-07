@@ -10,17 +10,16 @@ _$_VerifyingPaymasterResult _$$_VerifyingPaymasterResultFromJson(
         Map<String, dynamic> json) =>
     _$_VerifyingPaymasterResult(
       paymasterAndData: json['paymasterAndData'] as String,
-      preVerificationGas: BigInt.parse(json['preVerificationGas'] as String),
-      verificationGasLimit:
-          BigInt.parse(json['verificationGasLimit'] as String),
-      callGasLimit: BigInt.parse(json['callGasLimit'] as String),
+      preVerificationGas: json['preVerificationGas'] as String,
+      verificationGasLimit: json['verificationGasLimit'] as String,
+      callGasLimit: json['callGasLimit'] as String,
     );
 
 Map<String, dynamic> _$$_VerifyingPaymasterResultToJson(
         _$_VerifyingPaymasterResult instance) =>
     <String, dynamic>{
       'paymasterAndData': instance.paymasterAndData,
-      'preVerificationGas': instance.preVerificationGas.toString(),
-      'verificationGasLimit': instance.verificationGasLimit.toString(),
-      'callGasLimit': instance.callGasLimit.toString(),
+      'preVerificationGas': instance.preVerificationGas,
+      'verificationGasLimit': instance.verificationGasLimit,
+      'callGasLimit': instance.callGasLimit,
     };
