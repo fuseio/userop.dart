@@ -11,14 +11,24 @@ extension E on String {
   String lastChars(int n) => substring(length - n);
 }
 
-const AddressZero = "0x0000000000000000000000000000000000000000";
-
+/// A simple account class that extends the `UserOperationBuilder`.
+/// This class provides methods for interacting with an 4337 simple account.
 class SimpleAccount extends UserOperationBuilder {
   final EthPrivateKey credentials;
+
+  /// The Bundler RPC service instance to interact with the network.
   late final RpcService provider;
+
+  /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
+
+  /// The factory instance to create simple account contracts.
   late final SimpleAccountFactory simpleAccountFactory;
+
+  /// The initialization code for the contract.
   late String initCode;
+
+  /// The proxy instance to interact with the SimpleAccount contract.
   late simple_account_impl.SimpleAccount proxy;
 
   SimpleAccount(
@@ -36,20 +46,22 @@ class SimpleAccount extends UserOperationBuilder {
       opts?.overrideBundlerRpc,
     );
     entryPoint = EntryPoint(
-      address: EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
+      address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
     );
     simpleAccountFactory = SimpleAccountFactory(
-      address: EthereumAddress.fromHex(ERC4337.SIMPLE_ACCOUNT_FACTORY),
+      address: opts?.simpleAccountFactoryAddress ??
+          EthereumAddress.fromHex(ERC4337.SIMPLE_ACCOUNT_FACTORY),
       client: web3client,
     );
     initCode = '0x';
     proxy = simple_account_impl.SimpleAccount(
-      address: EthereumAddress.fromHex(AddressZero),
+      address: EthereumAddress.fromHex(Addresses.AddressZero),
       client: web3client,
     );
   }
 
+  /// Resolves the nonce and init code for the SimpleAccount contract creation.
   Future<void> resolveAccount(ctx) async {
     ctx.op.nonce = await entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
@@ -58,6 +70,7 @@ class SimpleAccount extends UserOperationBuilder {
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
 
+  /// Initializes a SimpleAccount object and returns it.
   static Future<SimpleAccount> init(
     EthPrivateKey credentials,
     String rpcUrl, {
@@ -133,6 +146,7 @@ class SimpleAccount extends UserOperationBuilder {
         as SimpleAccount;
   }
 
+  /// Executes a transaction on the network.
   Future<IUserOperationBuilder> execute(
     EthereumAddress to,
     BigInt value,
@@ -148,13 +162,16 @@ class SimpleAccount extends UserOperationBuilder {
     );
   }
 
+  /// Executes a batch transaction on the network.
   Future<IUserOperationBuilder> executeBatch(
     List<EthereumAddress> to,
     List<Uint8List> data,
   ) async {
     return setCallData(
       bytesToHex(
-        proxy.self.function('executeBatch').encodeCall([to, data]),
+        proxy.self.function('executeBatch').encodeCall(
+          [to, data],
+        ),
         include0x: true,
       ),
     );

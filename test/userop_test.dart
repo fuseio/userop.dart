@@ -10,7 +10,8 @@ void main() {
     test('Should initialize correctly', () {
       final builder = UserOperationBuilder();
 
-      expect(builder.getOp().toJson(), equals(defaultUserOp.toJson()));
+      expect(builder.getOp().toJson(),
+          equals(IUserOperation.defaultUserOp().toJson()));
     });
   });
 
@@ -95,7 +96,7 @@ void main() {
         BigInt.parse('0x1'),
       );
       final matcher = UserOperationBuilder().useDefaults({
-        ...defaultUserOp.toJson(),
+        ...IUserOperation.defaultUserOp().toJson(),
         'paymasterAndData': MOCK_BYTES_1,
         'maxFeePerGas': mockMaxFeePerGas,
         'maxPriorityFeePerGas': mockMaxPriorityFeePerGas,
@@ -118,7 +119,7 @@ void main() {
             .toString(),
         equals(
           IUserOperation.fromJson({
-            ...defaultUserOp.toJson(),
+            ...IUserOperation.defaultUserOp().toJson(),
           }).toJson().toString(),
         ),
       );
