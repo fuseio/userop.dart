@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:userop/src/types.dart';
-import 'package:userop/src/utils/contracts.dart';
 import 'package:userop/userop.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:web3dart/crypto.dart';
@@ -11,9 +9,7 @@ Future<void> main(List<String> arguments) async {
   final tokenAddress = arguments[0];
   final targetAddresses = List<String>.from(arguments[1].split(','));
   final amount = BigInt.parse(arguments[2]);
-  final signingKey = EthPrivateKey.fromHex(
-    'YOUR_PRIVATE_KEY',
-  );
+  final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
   final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
   // final paymasterMiddleware = verifyingPaymaster(

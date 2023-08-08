@@ -1,10 +1,8 @@
 import 'package:test/test.dart';
-import 'package:userop/src/types.dart';
 import 'package:userop/userop.dart';
 
 void main() {
-  final mockValue =
-      EthereumAddress.fromHex('0x0000000000000000000000000000000000000000');
+  final mockValue = EthereumAddress.fromHex(Addresses.AddressZero);
 
   group('UserOperationBuilder', () {
     test('Should initialize correctly', () {
@@ -20,11 +18,8 @@ void main() {
       final builder = UserOperationBuilder();
 
       test('Updates via setter with good values', () {
-        expect(
-            builder.getSender(),
-            equals(EthereumAddress.fromHex(
-                    '0x0000000000000000000000000000000000000000')
-                .toString()));
+        expect(builder.getSender(),
+            equals(EthereumAddress.fromHex(Addresses.AddressZero).toString()));
         expect(builder.setSender(mockValue.toString()).getSender(),
             equals(mockValue.toString()));
       });

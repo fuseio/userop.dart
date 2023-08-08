@@ -1,3 +1,8 @@
+## [0.0.3]
+
+### Added
+- A default example for pub.dev
+
 ## [0.0.2]
 
 ### Fixed
