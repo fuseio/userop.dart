@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:userop/src/types.dart';
-import 'package:userop/src/utils/contracts.dart';
 import 'package:userop/userop.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:web3dart/crypto.dart';
@@ -10,10 +8,8 @@ Future<void> main(List<String> arguments) async {
   final tokenAddress = EthereumAddress.fromHex(arguments[0]);
   final targetAddress = EthereumAddress.fromHex(arguments[1]);
   final amount = BigInt.parse(arguments[2]);
-  final signingKey = EthPrivateKey.fromHex(
-    'YOUR_PRIVATE_KEY',
-  );
-  final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
+  final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
+  final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
   // final paymasterMiddleware = verifyingPaymaster(
   //   BundlerJsonRpcProvider('YOUR_PAYMASTER_SERVICE_URL', http.Client()),
@@ -33,7 +29,7 @@ Future<void> main(List<String> arguments) async {
 
   final client = await Client.init(bundlerRPC, opts: iClientOpts);
 
-  final ISendUserOperationOpts sendOpts = ISendUserOperationOpts()
+  final sendOpts = ISendUserOperationOpts()
     ..dryRun = false
     ..onBuild = (IUserOperation ctx) async {
       print("Signed UserOperation");
