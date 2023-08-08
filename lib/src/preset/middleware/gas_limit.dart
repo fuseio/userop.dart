@@ -4,13 +4,12 @@ import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../../models/index.dart';
-import '../../utils/crypto.dart';
 
 Future<BigInt> estimateCreationGas(
   Web3Client client,
   String initCode,
 ) async {
-  final initCodeHex = hexlify(initCode);
+  final initCodeHex = initCode;
   final factoryAddress = initCodeHex.substring(0, 42);
   final callData = "0x${initCodeHex.substring(42)}";
   return await client.estimateGas(
@@ -31,6 +30,7 @@ UserOperationMiddlewareFn estimateUserOperationGas(
             ctx.op.initCode,
           );
     }
+
     final rpcResponse = await provider.call(
       'eth_estimateUserOperationGas',
       [ctx.op.opToJson(), ctx.entryPoint.toString()],

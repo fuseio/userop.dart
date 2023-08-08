@@ -9,15 +9,23 @@ import 'package:web3dart/web3dart.dart';
 
 import 'provider.dart';
 
+/// A Client class for interacting with an ERC-4337 bundler.
+///
+/// The `Client` class provides methods for building and sending user operations to the ERC-4337 bundler.
+/// The class includes methods for both real and simulated (dry-run) operation sending.
 class Client implements IClient {
   final Web3Client web3client;
-  late final RpcService jsonRpc;
+  final RpcService jsonRpc;
 
   late BigInt chainId;
   late final EntryPoint entryPoint;
   late final int waitTimeoutMs;
   late final int waitIntervalMs;
 
+  /// Constructor for `Client`.
+  ///
+  /// Initializes the `Web3Client`, `RpcService`, and other necessary properties.
+  /// Requires an RPC bundler url for connection.
   Client(
     String rpcUrl, {
     IClientOpts? opts,
@@ -26,20 +34,21 @@ class Client implements IClient {
         ),
         waitTimeoutMs = 30000,
         waitIntervalMs = 5000,
-        chainId = BigInt.from(123) {
-    jsonRpc = BundlerJsonRpcProvider(
-      rpcUrl,
-      http.Client(),
-    ).setBundlerRpc(
-      opts?.overrideBundlerRpc,
-    );
-
+        jsonRpc = BundlerJsonRpcProvider(
+          rpcUrl,
+          http.Client(),
+        ).setBundlerRpc(
+          opts?.overrideBundlerRpc,
+        ) {
     entryPoint = EntryPoint(
       client: web3client,
       address: EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
     );
   }
 
+  /// Static initializer for `Client`.
+  ///
+  /// Fetches the `chainId` and returns a `Client` instance.
   static Future<IClient> init(String rpcUrl, {IClientOpts? opts}) async {
     final instance = Client(rpcUrl, opts: opts);
     instance.chainId = await instance.web3client.getChainId();
@@ -47,6 +56,9 @@ class Client implements IClient {
     return instance;
   }
 
+  /// Builds a user operation.
+  ///
+  /// Accepts an `IUserOperationBuilder` and returns a built user operation.
   @override
   Future<IUserOperation> buildUserOperation(
     IUserOperationBuilder builder,
@@ -54,6 +66,10 @@ class Client implements IClient {
     return builder.buildOp(entryPoint.self.address, chainId);
   }
 
+  /// Sends a user operation.
+  ///
+  /// Accepts an `IUserOperationBuilder` and optional send operation options.
+  /// Returns a response containing the hash of the user operation and a wait function.
   @override
   Future<ISendUserOperationResponse> sendUserOperation(
     IUserOperationBuilder builder, {
@@ -88,7 +104,7 @@ class Client implements IClient {
         while (DateTime.now().millisecondsSinceEpoch < end) {
           final userOperationEvent =
               entryPoint.self.event('UserOperationEvent');
-          final sub = await web3client
+          final filterEvent = await web3client
               .events(
                 FilterOptions.events(
                   contract: entryPoint.self,
@@ -98,8 +114,8 @@ class Client implements IClient {
               )
               .take(1)
               .first;
-          if (sub.transactionHash != null) {
-            return sub;
+          if (filterEvent.transactionHash != null) {
+            return filterEvent;
           }
 
           await Future.delayed(Duration(milliseconds: waitIntervalMs));

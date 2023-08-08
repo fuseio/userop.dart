@@ -1,17 +1,22 @@
 import 'package:web3dart/web3dart.dart';
 
 import './types.dart';
+
 import 'context.dart';
 
+/// A concrete implementation of `IUserOperationBuilder` that provides a flexible way to construct a `IUserOperation`.
 class UserOperationBuilder implements IUserOperationBuilder {
+  /// The default `IUserOperation` object that is used as a base to build upon.
   late IUserOperation _defaultOp;
+
+  /// The current `IUserOperation` object that is being built.
   late IUserOperation _currentOp;
+
+  /// The stack of middleware functions that are applied to the current operation when `buildOp` is called.
   late List<UserOperationMiddlewareFn> _middlewareStack;
 
   UserOperationBuilder() {
-    _defaultOp = IUserOperation.fromJson({
-      ...defaultUserOp.toJson(),
-    });
+    _defaultOp = IUserOperation.defaultUserOp();
     _currentOp = _defaultOp;
     _middlewareStack = [];
   }
@@ -159,9 +164,7 @@ class UserOperationBuilder implements IUserOperationBuilder {
 
   @override
   IUserOperationBuilder resetDefaults() {
-    _defaultOp = IUserOperation.fromJson({
-      ...defaultUserOp.toJson(),
-    });
+    _defaultOp = IUserOperation.defaultUserOp();
     return this;
   }
 
