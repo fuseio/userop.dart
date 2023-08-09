@@ -4,6 +4,8 @@ import 'package:userop/userop.dart';
 // import 'package:http/http.dart' as http;
 import 'package:web3dart/crypto.dart';
 
+/// Run this example with: dart example/transfer.dart TARGET_ADDRESS VALUE_IN_WEI
+
 Future<void> main(List<String> arguments) async {
   final targetAddress = EthereumAddress.fromHex(arguments[0]);
   final amount = BigInt.parse(arguments[1]);
@@ -15,7 +17,7 @@ Future<void> main(List<String> arguments) async {
   //   {},
   // );
 
-  final IPresetBuilderOpts opts = IPresetBuilderOpts();
+  final opts = IPresetBuilderOpts();
   // ..paymasterMiddleware = paymasterMiddleware;
   final simpleAccount = await SimpleAccount.init(
     signingKey,
@@ -23,12 +25,7 @@ Future<void> main(List<String> arguments) async {
     opts: opts,
   );
 
-  final iClientOpts = IClientOpts()..overrideBundlerRpc = bundlerRPC;
-
-  final client = await Client.init(
-    bundlerRPC,
-    opts: iClientOpts,
-  );
+  final client = await Client.init(bundlerRPC);
   final sendOpts = ISendUserOperationOpts()
     ..dryRun = false
     ..onBuild = (IUserOperation ctx) async {

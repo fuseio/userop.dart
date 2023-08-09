@@ -19,8 +19,8 @@ class Client implements IClient {
 
   late BigInt chainId;
   late final EntryPoint entryPoint;
-  late final int waitTimeoutMs;
-  late final int waitIntervalMs;
+  late int waitTimeoutMs;
+  late int waitIntervalMs;
 
   /// Constructor for `Client`.
   ///
