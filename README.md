@@ -92,12 +92,12 @@ A method for directing a `builder` instance to create a User Operation and send 
 import 'package:userop/userop.dart';
 
 final response = await client.sendUserOperation(
-  await simpleAccount.execute(
-    targetAddress,
-    amount,
-    hexToBytes('0x'),
-  ),
-  opts: sendOpts,
+    await simpleAccount.execute(
+      targetAddress,
+      amount,
+      hexToBytes('0x'),
+    ),
+    opts: sendOpts,
 );
 final filterEvent = await response.wait();
 
@@ -161,20 +161,20 @@ final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
 final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
 final simpleAccount = await SimpleAccount.init(
-  signingKey,
-  bundlerRPC,
+    signingKey,
+    bundlerRPC,
 );
 
 final client = await Client.init(
-  bundlerRPC,
+    bundlerRPC,
 );
 final res = await client.sendUserOperation(
-  await simpleAccount.execute(
-    targetAddress,
-    amount,
-    hexToBytes('0x'),
-  ),
-  opts: sendOpts,
+    await simpleAccount.execute(
+      targetAddress,
+      amount,
+      hexToBytes('0x'),
+    ),
+    opts: sendOpts,
 );
 print('UserOpHash: ${res.userOpHash}');
 
@@ -199,8 +199,8 @@ import 'package:userop/userop.dart';
 final builder = UserOperationBuilder();
 
 builder = builder.useMiddleware(estimateUserOperationGas(
-  WebeClient('RPC_URL', http.Client()),
-  BundlerJsonRpcProvider('RPC_URL', http.Client()),
+    WebeClient('RPC_URL', http.Client()),
+    BundlerJsonRpcProvider('RPC_URL', http.Client()),
 ))
   ```
 
@@ -214,8 +214,8 @@ import 'package:userop/userop.dart';
 final builder = UserOperationBuilder();
 
 builder = builder.useMiddleware(getGasPrice(
-  WebeClient('RPC_URL', http.Client()),
-  BundlerJsonRpcProvider('RPC_URL', http.Client()),
+    WebeClient('RPC_URL', http.Client()),
+    BundlerJsonRpcProvider('RPC_URL', http.Client()),
 ))
   ```
 
@@ -233,9 +233,9 @@ final IPresetBuilderOpts opts = IPresetBuilderOpts()
     ..paymasterMiddleware = paymasterMiddleware;
 
 final simpleAccount = await SimpleAccount.init(
-  signingKey,
-  bundlerRPC,
-  opts: opts,
+    signingKey,
+    bundlerRPC,
+    opts: opts,
 );
  ```
 
