@@ -134,6 +134,7 @@ client.waitIntervalMs = 5000;
   ```dart
 
 import 'package:userop/userop.dart';
+import 'package:http/http.dart' as http;
 
 final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 final provider = BundlerJsonRpcProvider(rpcUrl, http.Client());
@@ -199,7 +200,7 @@ import 'package:userop/userop.dart';
 final builder = UserOperationBuilder();
 
 builder = builder.useMiddleware(estimateUserOperationGas(
-    WebeClient('RPC_URL', http.Client()),
+    Web3Client('RPC_URL', http.Client()),
     BundlerJsonRpcProvider('RPC_URL', http.Client()),
 ))
   ```
@@ -214,7 +215,7 @@ import 'package:userop/userop.dart';
 final builder = UserOperationBuilder();
 
 builder = builder.useMiddleware(getGasPrice(
-    WebeClient('RPC_URL', http.Client()),
+    Web3Client('RPC_URL', http.Client()),
     BundlerJsonRpcProvider('RPC_URL', http.Client()),
 ))
   ```
@@ -225,7 +226,7 @@ This middleware function requests gas sponsorship from a Paymaster service. It a
 
  ```dart
 final paymasterMiddleware = verifyingPaymaster(
-  BundlerJsonRpcProvider('YOUR_PAYMASTER_SERVICE_URL', http.Client()),
+  'YOUR_PAYMASTER_SERVICE_URL',
   {},
 );
 

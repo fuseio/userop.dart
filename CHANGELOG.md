@@ -1,3 +1,8 @@
+## [0.0.5]
+
+### Changed
+- **Breaking:** `verifyingPaymaster` is now getting just the address of the paymaster contract instead of the JsonRPC provider.
+
 ## [0.0.4]
 
 ### Added

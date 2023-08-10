@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:userop/userop.dart';
-// import 'package:http/http.dart' as http;
 // import 'package:web3dart/crypto.dart';
 
 Future<void> main(List<String> arguments) async {
@@ -13,7 +12,7 @@ Future<void> main(List<String> arguments) async {
   final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
   // final paymasterMiddleware = verifyingPaymaster(
-  //   BundlerJsonRpcProvider('YOUR_PAYMASTER_SERVICE_URL', http.Client()),
+  //   'YOUR_PAYMASTER_SERVICE_URL',
   //   {},
   // );
 
