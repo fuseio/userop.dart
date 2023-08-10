@@ -1,15 +1,16 @@
-import 'package:web3dart/json_rpc.dart';
+import 'package:http/http.dart';
+import 'package:userop/userop.dart' hide Client;
 
 import '../../models/verifying_paymaster_result.dart';
-import '../../types.dart';
 
 UserOperationMiddlewareFn verifyingPaymaster(
-  JsonRPC provider,
+  String paymasterRpc,
   Map<String, dynamic> context,
 ) {
   return (ctx) async {
     ctx.op.verificationGasLimit = ctx.op.verificationGasLimit * BigInt.from(3);
 
+    final provider = BundlerJsonRpcProvider(paymasterRpc, Client());
     final rpcResponse = await provider.call(
       'pm_sponsorUserOperation',
       [ctx.op.opToJson(), ctx.entryPoint.toString(), context],
