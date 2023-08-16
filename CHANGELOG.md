@@ -1,3 +1,11 @@
+## [0.0.6]
+
+### Added
+- A new preset `Kernel`. It's based on [ZeroDev](https://docs.zerodev.app/).
+
+### Changed
+- **Breaking:** `execute` & `executeBatch` is now getting `Call` instead of to, value and data.
+
 ## [0.0.5]
 
 ### Changed

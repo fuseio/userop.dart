@@ -1,19 +1,22 @@
 import 'dart:typed_data';
+import 'package:eth_sig_util/util/abi.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/json_rpc.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../userop.dart';
-import '../../typechain/SimpleAccount.g.dart' as simple_account_impl;
+import '../../typechain/Kernel.g.dart' as kernel_impl;
+import '../../typechain/ECDSAKernelFactory.g.dart';
 import '../../typechain/index.dart';
 
-extension E on String {
-  String lastChars(int n) => substring(length - n);
+enum Operation {
+  Call,
+  DelegateCall,
 }
 
-/// A simple account class that extends the `UserOperationBuilder`.
-/// This class provides methods for interacting with an 4337 simple account.
-class SimpleAccount extends UserOperationBuilder {
+/// A kernel class that extends the `UserOperationBuilder`.
+/// This class provides methods for interacting with an 4337 ZeroDev Kernel.
+class Kernel extends UserOperationBuilder {
   final EthPrivateKey credentials;
 
   /// The Bundler RPC service instance to interact with the network.
@@ -22,16 +25,19 @@ class SimpleAccount extends UserOperationBuilder {
   /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
 
-  /// The factory instance to create simple account contracts.
-  late final SimpleAccountFactory simpleAccountFactory;
+  /// The factory instance to create kernel contracts.
+  late final ECDSAKernelFactory eCDSAKernelFactory;
+
+  /// The factory instance to interact with the Multicall3 contract.
+  late Multisend multisend;
 
   /// The initialization code for the contract.
   late String initCode;
 
-  /// The proxy instance to interact with the SimpleAccount contract.
-  late simple_account_impl.SimpleAccount proxy;
+  /// The proxy instance to interact with the Kernel contract.
+  late kernel_impl.Kernel proxy;
 
-  SimpleAccount(
+  Kernel(
     this.credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
@@ -49,13 +55,16 @@ class SimpleAccount extends UserOperationBuilder {
       address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
     );
-    simpleAccountFactory = SimpleAccountFactory(
-      address: opts?.factoryAddress ??
-          EthereumAddress.fromHex(ERC4337.SIMPLE_ACCOUNT_FACTORY),
+    eCDSAKernelFactory = ECDSAKernelFactory(
+      address: opts!.factoryAddress!,
       client: web3client,
     );
     initCode = '0x';
-    proxy = simple_account_impl.SimpleAccount(
+    multisend = Multisend(
+      address: EthereumAddress.fromHex(Addresses.AddressZero),
+      client: web3client,
+    );
+    proxy = kernel_impl.Kernel(
       address: EthereumAddress.fromHex(Addresses.AddressZero),
       client: web3client,
     );
@@ -70,21 +79,32 @@ class SimpleAccount extends UserOperationBuilder {
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
 
-  /// Initializes a SimpleAccount object and returns it.
-  static Future<SimpleAccount> init(
+  Future<void> sudoMode(ctx) async {
+    final inputArr = [
+      KernelModes.SUDO,
+      ctx.op.signature,
+    ];
+    final si =
+        inputArr.map((hexStr) => hexStr.toString().substring(2)).join('');
+    ctx.op.signature = bytesToHex(
+      hexToBytes(si),
+      include0x: true,
+    );
+  }
+
+  /// Initializes a Kernel object and returns it.
+  static Future<Kernel> init(
     EthPrivateKey credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
   }) async {
-    final instance = SimpleAccount(credentials, rpcUrl, opts: opts);
+    final instance = Kernel(credentials, rpcUrl, opts: opts);
 
     try {
       final List<String> inputArr = [
-        instance.simpleAccountFactory.self.address.toString(),
+        instance.eCDSAKernelFactory.self.address.toString(),
         bytesToHex(
-          instance.simpleAccountFactory.self
-              .function('createAccount')
-              .encodeCall(
+          instance.eCDSAKernelFactory.self.function('createAccount').encodeCall(
             [
               credentials.address,
               opts?.salt ?? BigInt.zero,
@@ -108,26 +128,46 @@ class SimpleAccount extends UserOperationBuilder {
         }
       ]);
     } on RPCError catch (e) {
+      if (e.data == 'revert') {
+        rethrow;
+      }
       final smartContractAddress = '0x${(e.data as String).lastChars(40)}';
-      instance.proxy = simple_account_impl.SimpleAccount(
+      final chain = await instance.eCDSAKernelFactory.client.getChainId();
+      final ms = Safe().multiSend[chain.toString()];
+      if (ms == null) {
+        throw Exception(
+          'Multisend contract not deployed on network: ${chain.toString()}',
+        );
+      }
+      instance.multisend = Multisend(
+        address: EthereumAddress.fromHex(ms),
+        client: instance.multisend.client,
+      );
+      instance.proxy = kernel_impl.Kernel(
         address: EthereumAddress.fromHex(smartContractAddress),
-        client: instance.simpleAccountFactory.client,
+        client: instance.proxy.client,
       );
     }
 
+    final inputArr = [
+      KernelModes.SUDO,
+      bytesToHex(
+        credentials.signPersonalMessageToUint8List(
+          Uint8List.fromList('0xdead'.codeUnits),
+        ),
+        include0x: true,
+      ),
+    ];
+    final signature =
+        '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
     final baseInstance = instance
         .useDefaults({
           'sender': instance.proxy.self.address.toString(),
-          'signature': bytesToHex(
-            credentials.signPersonalMessageToUint8List(
-              Uint8List.fromList('0xdead'.codeUnits),
-            ),
-            include0x: true,
-          ),
+          'signature': bytesToHex(hexToBytes(signature), include0x: true),
         })
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
-          instance.simpleAccountFactory.client,
+          instance.eCDSAKernelFactory.client,
           instance.provider,
         ));
 
@@ -136,13 +176,14 @@ class SimpleAccount extends UserOperationBuilder {
             opts?.paymasterMiddleware as UserOperationMiddlewareFn)
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
-              instance.simpleAccountFactory.client,
+              instance.eCDSAKernelFactory.client,
               instance.provider,
             ),
           );
 
-    return withPM.useMiddleware(eOASignature(instance.credentials))
-        as SimpleAccount;
+    return withPM
+        .useMiddleware(eOASignature(instance.credentials))
+        .useMiddleware(instance.sudoMode) as Kernel;
   }
 
   /// Executes a transaction on the network.
@@ -156,6 +197,7 @@ class SimpleAccount extends UserOperationBuilder {
             call.to,
             call.value,
             call.data,
+            BigInt.zero,
           ],
         ),
         include0x: true,
@@ -167,12 +209,37 @@ class SimpleAccount extends UserOperationBuilder {
   Future<IUserOperationBuilder> executeBatch(
     List<Call> calls,
   ) async {
+    final data = multisend.self.function('multiSend').encodeCall([
+      Uint8List.fromList(calls
+          .expand(
+            (e) => AbiUtil.solidityPack(
+              [
+                "uint8",
+                "address",
+                "uint256",
+                "uint256",
+                "bytes",
+              ],
+              [
+                0,
+                e.to.addressBytes,
+                e.value,
+                e.data.length,
+                e.data,
+              ],
+            ),
+          )
+          .toList()),
+    ]);
+
     return setCallData(
       bytesToHex(
-        proxy.self.function('executeBatch').encodeCall(
+        proxy.self.function('execute').encodeCall(
           [
-            calls.map((e) => e.to).toList(),
-            calls.map((e) => e.data).toList(),
+            multisend.self.address,
+            BigInt.zero,
+            data,
+            BigInt.one,
           ],
         ),
         include0x: true,
