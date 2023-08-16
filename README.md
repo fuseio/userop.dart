@@ -21,6 +21,7 @@
     - [BundlerJsonRpcProvider](#bundlerjsonrpcprovider)
   - [Presets](#presets)
     - [Builder](#builder)
+      - [Kernel](#kernel)
       - [SimpleAccount](#simpleaccount)
     - [Middleware](#middleware)
       - [estimateUserOperationGas](#estimateuseroperationgas)
@@ -61,7 +62,7 @@ dependencies:
 
 Connecting to an ERC-4337 bundler is easy using `userop.dart`
 
-`Userop.dart` allows you connect to a bundler RPC using the client interface.
+`userop.dart` allows you connect to a bundler RPC using the client interface.
 
 An instance of a client is an abstraction for building and sending your User Operations to the `eth_sendUserOperation` RPC method on a bundler.
 
@@ -93,9 +94,11 @@ import 'package:userop/userop.dart';
 
 final response = await client.sendUserOperation(
     await simpleAccount.execute(
-      targetAddress,
-      amount,
-      hexToBytes('0x'),
+      Call(
+        to: targetAddress,
+        value: amount,
+        data: Uint8List(0),
+      )
     ),
     opts: sendOpts,
 );
@@ -148,6 +151,44 @@ final provider = BundlerJsonRpcProvider(rpcUrl, http.Client());
 
 Builder presets offer pre-configured builders for known contract account implementations. These presets can be utilized directly or can be customized using get and set functions.
 
+#### Kernel
+The Kernel preset is an abstraction to build User Operations for an ERC-4337 account based on [ZeroDev Kernel V2](https://github.com/zerodevapp/kernel/blob/main/src/Kernel.sol) - a modular contract account framework. It deploys with the [ECDSA validator](https://github.com/zerodevapp/kernel/blob/main/src/validator/ECDSAValidator.sol) by default.
+
+  ```dart
+import 'package:userop/userop.dart';
+
+final targetAddress = EthereumAddress.fromHex('YOUR_TARGET_ADDRESS');
+final amount = BigInt.parse('AMOUNT_IN_WEI');
+final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
+final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
+final opts = IPresetBuilderOpts()
+  ..factoryAddress = EthereumAddress.fromHex(
+    'YOUR_FACTORY_ADDRESS',
+  );
+final kernel = await Kernel.init(
+    signingKey,
+    bundlerRPC,
+    opts: opts,
+);
+
+final client = await Client.init(bundlerRPC);
+
+final res = await client.sendUserOperation(
+    await kernel.execute(
+      Call(
+        to: targetAddress,
+        value: amount,
+        data: Uint8List(0),
+      ),
+    ),
+);
+print('UserOpHash: ${res.userOpHash}');
+
+print('Waiting for transaction...');
+final ev = await res.wait();
+print('Transaction hash: ${ev?.transactionHash}');
+  ```
+  
 
 #### SimpleAccount
 
@@ -157,25 +198,25 @@ The `SimpleAccount` preset provides an abstraction to construct User Operations 
 import 'package:userop/userop.dart';
 
 final targetAddress = EthereumAddress.fromHex('YOUR_TARGET_ADDRESS');
-final amount = BigInt.parse(arguments[1]);
+final amount = BigInt.parse('AMOUNT_IN_WEI');
 final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
-final String bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
+final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
 final simpleAccount = await SimpleAccount.init(
     signingKey,
     bundlerRPC,
 );
 
-final client = await Client.init(
-    bundlerRPC,
-);
+final client = await Client.init(bundlerRPC);
+
 final res = await client.sendUserOperation(
     await simpleAccount.execute(
-      targetAddress,
-      amount,
-      hexToBytes('0x'),
+      Call(
+        to: targetAddress,
+        value: amount,
+        data: Uint8List(0),
+      ),
     ),
-    opts: sendOpts,
 );
 print('UserOpHash: ${res.userOpHash}');
 

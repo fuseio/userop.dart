@@ -280,7 +280,18 @@ class ISendUserOperationResponse {
 class IPresetBuilderOpts {
   EthereumAddress? entryPoint;
   BigInt? salt;
-  EthereumAddress? simpleAccountFactoryAddress;
+  EthereumAddress? factoryAddress;
   UserOperationMiddlewareFn? paymasterMiddleware;
   String? overrideBundlerRpc;
+}
+
+class Call {
+  EthereumAddress to;
+  BigInt value;
+  Uint8List data;
+  Call({
+    required this.to,
+    required this.value,
+    required this.data,
+  });
 }

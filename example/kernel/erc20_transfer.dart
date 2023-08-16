@@ -17,7 +17,7 @@ Future<void> main(List<String> arguments) async {
 
   final IPresetBuilderOpts opts = IPresetBuilderOpts();
   // ..paymasterMiddleware = paymasterMiddleware;
-  final simpleAccount = await SimpleAccount.init(
+  final kernel = await Kernel.init(
     signingKey,
     bundlerRPC,
     opts: opts,
@@ -30,14 +30,14 @@ Future<void> main(List<String> arguments) async {
 
   final sendOpts = ISendUserOperationOpts()
     ..dryRun = false
-    ..onBuild = (IUserOperation ctx) async {
+    ..onBuild = (IUserOperation ctx) {
       print("Signed UserOperation");
     };
 
-  final userOp = await simpleAccount.execute(
-    tokenAddress,
-    BigInt.zero,
-    ContractsHelper.encodedDataForContractCall(
+  final call = Call(
+    to: tokenAddress,
+    value: BigInt.zero,
+    data: ContractsHelper.encodedDataForContractCall(
       'ERC20',
       tokenAddress.toString(),
       'transfer',
@@ -48,6 +48,8 @@ Future<void> main(List<String> arguments) async {
       include0x: true,
     ),
   );
+
+  final userOp = await kernel.execute(call);
   final res = await client.sendUserOperation(
     userOp,
     opts: sendOpts,
