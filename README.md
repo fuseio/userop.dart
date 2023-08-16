@@ -174,7 +174,7 @@ final kernel = await Kernel.init(
 final client = await Client.init(bundlerRPC);
 
 final res = await client.sendUserOperation(
-  await kernel.execute(
+    await kernel.execute(
       Call(
         to: targetAddress,
         value: amount,
@@ -203,20 +203,20 @@ final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
 final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
 
 final simpleAccount = await SimpleAccount.init(
-  signingKey,
-  bundlerRPC,
+    signingKey,
+    bundlerRPC,
 );
 
 final client = await Client.init(bundlerRPC);
 
 final res = await client.sendUserOperation(
-  await simpleAccount.execute(
-    Call(
-      to: targetAddress,
-      value: amount,
-      data: Uint8List(0),
+    await simpleAccount.execute(
+      Call(
+        to: targetAddress,
+        value: amount,
+        data: Uint8List(0),
+      ),
     ),
-  ),
 );
 print('UserOpHash: ${res.userOpHash}');
 
