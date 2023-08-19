@@ -11,4 +11,8 @@ class ERC4337 {
   /// The address for the SimpleAccountFactory contract as per the ERC-4337 protocol.
   static const SIMPLE_ACCOUNT_FACTORY =
       "0x9406Cc6185a346906296840746125a0E44976454";
+
+  /// The address for the EtherspotWalletFactory contract as per the ERC-4337 protocol.
+  static const ETHERSPOT_WALLET_FACTORY =
+      "0x2f771DCa6Ffa3879e48355E8A4aF5b81d82A6164";
 }

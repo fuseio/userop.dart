@@ -22,6 +22,7 @@
   - [Presets](#presets)
     - [Builder](#builder)
       - [Kernel](#kernel)
+      - [Etherspot Wallet](#etherspot-wallet)
       - [SimpleAccount](#simpleaccount)
     - [Middleware](#middleware)
       - [estimateUserOperationGas](#estimateuseroperationgas)
@@ -175,6 +176,42 @@ final client = await Client.init(bundlerRPC);
 
 final res = await client.sendUserOperation(
     await kernel.execute(
+      Call(
+        to: targetAddress,
+        value: amount,
+        data: Uint8List(0),
+      ),
+    ),
+);
+print('UserOpHash: ${res.userOpHash}');
+
+print('Waiting for transaction...');
+final ev = await res.wait();
+print('Transaction hash: ${ev?.transactionHash}');
+  ```
+  
+
+#### Etherspot Wallet
+
+The `EtherspotWallet` preset provides an abstraction to construct User Operations for an ERC-4337 account. It's based on [EtherspotWallet.sol](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/wallet/EtherspotWallet.sol).
+
+  ```dart
+import 'package:userop/userop.dart';
+
+final targetAddress = EthereumAddress.fromHex('YOUR_TARGET_ADDRESS');
+final amount = BigInt.parse('AMOUNT_IN_WEI');
+final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
+final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
+
+final etherspotWallet = await EtherspotWallet.init(
+    signingKey,
+    bundlerRPC,
+);
+
+final client = await Client.init(bundlerRPC);
+
+final res = await client.sendUserOperation(
+    await etherspotWallet.execute(
       Call(
         to: targetAddress,
         value: amount,

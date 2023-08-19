@@ -1,21 +1,15 @@
 import 'dart:typed_data';
-import 'package:eth_sig_util/util/abi.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/json_rpc.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../userop.dart';
-import '../../typechain/Kernel.g.dart' as kernel_impl;
+import '../../typechain/EtherspotWallet.g.dart' as etherspot_wallet_impl;
 import '../../typechain/index.dart';
 
-enum Operation {
-  Call,
-  DelegateCall,
-}
-
-/// A kernel class that extends the `UserOperationBuilder`.
-/// This class provides methods for interacting with an 4337 ZeroDev Kernel.
-class Kernel extends UserOperationBuilder {
+/// A EtherspotWallet class that extends the `UserOperationBuilder`.
+/// This class provides methods for interacting with an 4337 EtherspotWallet.
+class EtherspotWallet extends UserOperationBuilder {
   final EthPrivateKey credentials;
 
   /// The Bundler RPC service instance to interact with the network.
@@ -24,19 +18,16 @@ class Kernel extends UserOperationBuilder {
   /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
 
-  /// The factory instance to create kernel contracts.
-  late final ECDSAKernelFactory eCDSAKernelFactory;
-
-  /// The factory instance to interact with the Multicall3 contract.
-  late Multisend multisend;
+  /// The factory instance to create Etherspot Wallet contracts.
+  late final EtherspotWalletFactory etherspotWalletFactory;
 
   /// The initialization code for the contract.
   late String initCode;
 
-  /// The proxy instance to interact with the Kernel contract.
-  late kernel_impl.Kernel proxy;
+  /// The proxy instance to interact with the EtherspotWallet contract.
+  late etherspot_wallet_impl.EtherspotWallet proxy;
 
-  Kernel(
+  EtherspotWallet(
     this.credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
@@ -54,22 +45,19 @@ class Kernel extends UserOperationBuilder {
       address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
     );
-    eCDSAKernelFactory = ECDSAKernelFactory(
-      address: opts!.factoryAddress!,
+    etherspotWalletFactory = EtherspotWalletFactory(
+      address: opts?.factoryAddress ??
+          EthereumAddress.fromHex(ERC4337.ETHERSPOT_WALLET_FACTORY),
       client: web3client,
     );
     initCode = '0x';
-    multisend = Multisend(
-      address: EthereumAddress.fromHex(Addresses.AddressZero),
-      client: web3client,
-    );
-    proxy = kernel_impl.Kernel(
+    proxy = etherspot_wallet_impl.EtherspotWallet(
       address: EthereumAddress.fromHex(Addresses.AddressZero),
       client: web3client,
     );
   }
 
-  /// Resolves the nonce and init code for the SimpleAccount contract creation.
+  /// Resolves the nonce and init code for the EtherspotWallet contract creation.
   Future<void> resolveAccount(ctx) async {
     ctx.op.nonce = await entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
@@ -78,33 +66,23 @@ class Kernel extends UserOperationBuilder {
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
 
-  Future<void> sudoMode(ctx) async {
-    final inputArr = [
-      KernelModes.SUDO,
-      ctx.op.signature,
-    ];
-    final si =
-        inputArr.map((hexStr) => hexStr.toString().substring(2)).join('');
-    ctx.op.signature = bytesToHex(
-      hexToBytes(si),
-      include0x: true,
-    );
-  }
-
-  /// Initializes a Kernel object and returns it.
-  static Future<Kernel> init(
+  /// Initializes a EtherspotWallet object and returns it.
+  static Future<EtherspotWallet> init(
     EthPrivateKey credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
   }) async {
-    final instance = Kernel(credentials, rpcUrl, opts: opts);
+    final instance = EtherspotWallet(credentials, rpcUrl, opts: opts);
 
     try {
       final List<String> inputArr = [
-        instance.eCDSAKernelFactory.self.address.toString(),
+        instance.etherspotWalletFactory.self.address.toString(),
         bytesToHex(
-          instance.eCDSAKernelFactory.self.function('createAccount').encodeCall(
+          instance.etherspotWalletFactory.self
+              .function('createAccount')
+              .encodeCall(
             [
+              instance.entryPoint.self.address,
               credentials.address,
               opts?.salt ?? BigInt.zero,
             ],
@@ -127,46 +105,26 @@ class Kernel extends UserOperationBuilder {
         }
       ]);
     } on RPCError catch (e) {
-      if (e.data == 'revert') {
-        rethrow;
-      }
       final smartContractAddress = '0x${(e.data as String).lastChars(40)}';
-      final chain = await instance.eCDSAKernelFactory.client.getChainId();
-      final ms = Safe().multiSend[chain.toString()];
-      if (ms == null) {
-        throw Exception(
-          'Multisend contract not deployed on network: ${chain.toString()}',
-        );
-      }
-      instance.multisend = Multisend(
-        address: EthereumAddress.fromHex(ms),
-        client: instance.multisend.client,
-      );
-      instance.proxy = kernel_impl.Kernel(
+      instance.proxy = etherspot_wallet_impl.EtherspotWallet(
         address: EthereumAddress.fromHex(smartContractAddress),
-        client: instance.proxy.client,
+        client: instance.etherspotWalletFactory.client,
       );
     }
 
-    final inputArr = [
-      KernelModes.SUDO,
-      bytesToHex(
-        credentials.signPersonalMessageToUint8List(
-          Uint8List.fromList('0xdead'.codeUnits),
-        ),
-        include0x: true,
-      ),
-    ];
-    final signature =
-        '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
     final baseInstance = instance
         .useDefaults({
           'sender': instance.proxy.self.address.toString(),
-          'signature': bytesToHex(hexToBytes(signature), include0x: true),
+          'signature': bytesToHex(
+            credentials.signPersonalMessageToUint8List(
+              Uint8List.fromList('0xdead'.codeUnits),
+            ),
+            include0x: true,
+          ),
         })
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
-          instance.eCDSAKernelFactory.client,
+          instance.etherspotWalletFactory.client,
           instance.provider,
         ));
 
@@ -175,14 +133,13 @@ class Kernel extends UserOperationBuilder {
             opts?.paymasterMiddleware as UserOperationMiddlewareFn)
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
-              instance.eCDSAKernelFactory.client,
+              instance.etherspotWalletFactory.client,
               instance.provider,
             ),
           );
 
-    return withPM
-        .useMiddleware(eOASignature(instance.credentials))
-        .useMiddleware(instance.sudoMode) as Kernel;
+    return withPM.useMiddleware(eOASignature(instance.credentials))
+        as EtherspotWallet;
   }
 
   /// Executes a transaction on the network.
@@ -196,7 +153,6 @@ class Kernel extends UserOperationBuilder {
             call.to,
             call.value,
             call.data,
-            BigInt.zero,
           ],
         ),
         include0x: true,
@@ -208,37 +164,13 @@ class Kernel extends UserOperationBuilder {
   Future<IUserOperationBuilder> executeBatch(
     List<Call> calls,
   ) async {
-    final data = multisend.self.function('multiSend').encodeCall([
-      Uint8List.fromList(calls
-          .expand(
-            (e) => AbiUtil.solidityPack(
-              [
-                "uint8",
-                "address",
-                "uint256",
-                "uint256",
-                "bytes",
-              ],
-              [
-                0,
-                e.to.addressBytes,
-                e.value,
-                e.data.length,
-                e.data,
-              ],
-            ),
-          )
-          .toList()),
-    ]);
-
     return setCallData(
       bytesToHex(
-        proxy.self.function('execute').encodeCall(
+        proxy.self.function('executeBatch').encodeCall(
           [
-            multisend.self.address,
-            BigInt.zero,
-            data,
-            BigInt.one,
+            calls.map((e) => e.to).toList(),
+            calls.map((e) => e.value).toList(),
+            calls.map((e) => e.data).toList(),
           ],
         ),
         include0x: true,

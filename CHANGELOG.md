@@ -1,3 +1,8 @@
+## [0.0.7]
+
+### Added
+- A new preset `EtherspotWallet`. It's based on [EtherspotWallet.sol](https://github.com/etherspot/etherspot-prime-contracts/blob/master/src/wallet/EtherspotWallet.sol).
+
 ## [0.0.6]
 
 ### Added
