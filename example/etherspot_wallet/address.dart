@@ -7,17 +7,12 @@ import 'package:userop/userop.dart';
 Future<void> main(List<String> arguments) async {
   final signingKey = EthPrivateKey.fromHex('YOUR_PRIVATE_KEY');
   final bundlerRPC = 'YOUR_BUNDLER_RPC_URL';
-  final opts = IPresetBuilderOpts()
-    ..factoryAddress = EthereumAddress.fromHex(
-      'YOUR_FACTORY_ADDRESS',
-    );
 
-  final kernel = await Kernel.init(
+  final etherspotWallet = await EtherspotWallet.init(
     signingKey,
     bundlerRPC,
-    opts: opts,
   );
 
-  print('Kernel address: ${kernel.getSender()}');
+  print('Etherspot Wallet address: ${etherspotWallet.getSender()}');
   exit(1);
 }
