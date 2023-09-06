@@ -14,17 +14,11 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 
   final fee = results[0] as String;
 
-  /// EIP-1559 is not supported on Fuse
-  // final block = results[1];
-
   final tip = BigInt.parse(fee);
   final mul = 100 * 13;
   final buffer = BigInt.parse((tip / BigInt.parse(mul.toString())) as String);
   final maxPriorityFeePerGas = tip + buffer;
   final maxFeePerGas = maxPriorityFeePerGas;
-  // final maxFeePerGas = block.baseFeePerGas != null
-  //     ? block.baseFeePerGas! * BigInt.from(2) + maxPriorityFeePerGas
-  //     : maxPriorityFeePerGas;
 
   return {
     'maxFeePerGas': maxFeePerGas.toString(),
@@ -34,6 +28,7 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 
 Future<Map<String, dynamic>> legacyGasPrice(Web3Client client) async {
   final gas = await client.getGasPrice();
+
   return {
     'maxFeePerGas': gas.getInWei,
     'maxPriorityFeePerGas': gas.getInWei,
@@ -46,6 +41,11 @@ UserOperationMiddlewareFn getGasPrice(
 ) {
   return (ctx) async {
     Object? eip1559Error;
+    if (ctx.op.maxFeePerGas > BigInt.zero &&
+        ctx.op.maxPriorityFeePerGas > BigInt.zero) {
+      return;
+    }
+
     try {
       final gasPrices = await eip1559GasPrice(client, provider);
       ctx.op.maxFeePerGas = gasPrices['maxFeePerGas'];
