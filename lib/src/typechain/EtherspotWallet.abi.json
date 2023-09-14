@@ -1,6 +1,17 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "contract IEntryPoint",
+        "name": "anEntryPoint",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IEtherspotWalletFactory",
+        "name": "anWalletFactory",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -34,25 +45,6 @@
       }
     ],
     "name": "BeaconUpgraded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "oldEntryPoint",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newEntryPoint",
-        "type": "address"
-      }
-    ],
-    "name": "EntryPointChanged",
     "type": "event"
   },
   {
@@ -166,6 +158,12 @@
         "internalType": "uint256",
         "name": "proposalId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "discardedBy",
+        "type": "address"
       }
     ],
     "name": "ProposalDiscarded",
@@ -202,6 +200,19 @@
       {
         "indexed": false,
         "internalType": "uint256",
+        "name": "newTimelock",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProposalTimelockChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
         "name": "proposalId",
         "type": "uint256"
       },
@@ -214,7 +225,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "guardiansApproved",
+        "name": "approvalCount",
         "type": "uint256"
       }
     ],
@@ -263,6 +274,19 @@
       }
     ],
     "name": "addOwner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newTimelock",
+        "type": "uint256"
+      }
+    ],
+    "name": "changeProposalTimelock",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -388,19 +412,18 @@
         "internalType": "bool",
         "name": "resolved_",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "proposedAt_",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_proposalId",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "guardianCosign",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -434,11 +457,6 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "contract IEntryPoint",
-        "name": "anEntryPoint",
-        "type": "address"
-      },
       {
         "internalType": "address",
         "name": "anOwner",
@@ -505,7 +523,7 @@
     "outputs": [
       {
         "internalType": "bytes4",
-        "name": "magicValue",
+        "name": "",
         "type": "bytes4"
       }
     ],
@@ -652,6 +670,19 @@
   },
   {
     "inputs": [],
+    "name": "proposalTimelock",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "proxiableUUID",
     "outputs": [
       {
@@ -744,19 +775,6 @@
     "name": "tokensReceived",
     "outputs": [],
     "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_newEntryPoint",
-        "type": "address"
-      }
-    ],
-    "name": "updateEntryPoint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

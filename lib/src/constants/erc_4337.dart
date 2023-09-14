@@ -14,5 +14,5 @@ class ERC4337 {
 
   /// The address for the EtherspotWalletFactory contract as per the ERC-4337 protocol.
   static const ETHERSPOT_WALLET_FACTORY =
-      "0x2f771DCa6Ffa3879e48355E8A4aF5b81d82A6164";
+      "0x7f6d8F107fE8551160BD5351d5F1514A6aD5d40E";
 }
