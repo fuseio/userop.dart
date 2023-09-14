@@ -1,6 +1,12 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -27,6 +33,32 @@
       }
     ],
     "name": "AccountCreation",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      }
+    ],
+    "name": "ImplementationSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnerChanged",
     "type": "event"
   },
   {
@@ -58,18 +90,45 @@
   {
     "inputs": [
       {
-        "internalType": "contract IEntryPoint",
-        "name": "entryPoint",
+        "internalType": "address",
+        "name": "_newOwner",
         "type": "address"
-      },
+      }
+    ],
+    "name": "changeOwner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "address",
-        "name": "owner",
+        "name": "_impl",
+        "type": "address"
+      }
+    ],
+    "name": "checkImplementation",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "index",
+        "name": "_index",
         "type": "uint256"
       }
     ],
@@ -87,18 +146,13 @@
   {
     "inputs": [
       {
-        "internalType": "contract IEntryPoint",
-        "name": "entryPoint",
-        "type": "address"
-      },
-      {
         "internalType": "address",
-        "name": "owner",
+        "name": "_owner",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "index",
+        "name": "_index",
         "type": "uint256"
       }
     ],
@@ -111,6 +165,32 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract EtherspotWallet",
+        "name": "_newImpl",
+        "type": "address"
+      }
+    ],
+    "name": "setImplementation",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

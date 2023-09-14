@@ -82,7 +82,6 @@ class EtherspotWallet extends UserOperationBuilder {
               .function('createAccount')
               .encodeCall(
             [
-              instance.entryPoint.self.address,
               credentials.address,
               opts?.salt ?? BigInt.zero,
             ],

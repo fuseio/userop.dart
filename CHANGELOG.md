@@ -1,3 +1,8 @@
+## [0.0.9]
+
+### Changed
+- Use the latest EtherspotWalletFactory contract deployed on Fuse.
+
 ## [0.0.8]
 
 ### Changed
