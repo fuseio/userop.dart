@@ -280,12 +280,35 @@ class IPresetBuilderOpts {
   EthereumAddress? factoryAddress;
   UserOperationMiddlewareFn? paymasterMiddleware;
   String? overrideBundlerRpc;
+  GasLimitOptions? gasLimitOptions;
+
+  IPresetBuilderOpts({
+    this.entryPoint,
+    this.salt,
+    this.factoryAddress,
+    this.paymasterMiddleware,
+    this.overrideBundlerRpc,
+    this.gasLimitOptions,
+  });
+}
+
+class GasLimitOptions {
+  final BigInt? callGasLimit;
+  final BigInt? verificationGasLimit;
+  final BigInt? preVerificationGas;
+
+  const GasLimitOptions({
+    this.callGasLimit,
+    this.verificationGasLimit,
+    this.preVerificationGas,
+  });
 }
 
 class Call {
   EthereumAddress to;
   BigInt value;
   Uint8List data;
+
   Call({
     required this.to,
     required this.value,

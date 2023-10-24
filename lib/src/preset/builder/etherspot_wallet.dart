@@ -111,16 +111,20 @@ class EtherspotWallet extends UserOperationBuilder {
       );
     }
 
+    final defaults = {
+      'sender': instance.proxy.self.address.toString(),
+      'signature': bytesToHex(
+        credentials.signPersonalMessageToUint8List(
+          Uint8List.fromList('0xdead'.codeUnits),
+        ),
+        include0x: true,
+      ),
+    };
+
+    _setDefaultGasLimitsIfProvided(opts, defaults);
+
     final baseInstance = instance
-        .useDefaults({
-          'sender': instance.proxy.self.address.toString(),
-          'signature': bytesToHex(
-            credentials.signPersonalMessageToUint8List(
-              Uint8List.fromList('0xdead'.codeUnits),
-            ),
-            include0x: true,
-          ),
-        })
+        .useDefaults(defaults)
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
           instance.etherspotWalletFactory.client,
@@ -139,6 +143,21 @@ class EtherspotWallet extends UserOperationBuilder {
 
     return withPM.useMiddleware(eOASignature(instance.credentials))
         as EtherspotWallet;
+  }
+
+  static void _setDefaultGasLimitsIfProvided(
+    IPresetBuilderOpts? opts,
+    Map<String, dynamic> defaults,
+  ) {
+    final gasLimitOptions = opts?.gasLimitOptions;
+
+    final callGasLimit = gasLimitOptions?.callGasLimit;
+    final verificationGasLimit = gasLimitOptions?.verificationGasLimit;
+    final preVerificationGas = gasLimitOptions?.preVerificationGas;
+
+    defaults["callGasLimit"] = callGasLimit;
+    defaults["verificationGasLimit"] = verificationGasLimit;
+    defaults["preVerificationGas"] = preVerificationGas;
   }
 
   /// Executes a transaction on the network.
