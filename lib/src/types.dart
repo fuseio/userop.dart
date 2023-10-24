@@ -18,13 +18,13 @@ class IUserOperation {
   late String callData;
 
   /// The gas limit for the operation call.
-  late BigInt callGasLimit;
+  late BigInt? callGasLimit;
 
   /// The gas limit for operation verification.
-  late BigInt verificationGasLimit;
+  late BigInt? verificationGasLimit;
 
   /// The gas for pre-verification of the operation.
-  late BigInt preVerificationGas;
+  late BigInt? preVerificationGas;
 
   /// The maximum fee per gas for the operation.
   late BigInt maxFeePerGas;
@@ -45,9 +45,6 @@ class IUserOperation {
         nonce: BigInt.zero,
         initCode: '0x',
         callData: '0x',
-        callGasLimit: BigInt.from(35000),
-        verificationGasLimit: BigInt.from(70000),
-        preVerificationGas: BigInt.from(21000),
         maxFeePerGas: BigInt.zero,
         maxPriorityFeePerGas: BigInt.zero,
         paymasterAndData: '0x',
@@ -81,9 +78,9 @@ class IUserOperation {
     required this.nonce,
     required this.initCode,
     required this.callData,
-    required this.callGasLimit,
-    required this.verificationGasLimit,
-    required this.preVerificationGas,
+    this.callGasLimit,
+    this.verificationGasLimit,
+    this.preVerificationGas,
     required this.maxFeePerGas,
     required this.maxPriorityFeePerGas,
     required this.paymasterAndData,
@@ -140,13 +137,13 @@ abstract class IUserOperationBuilder {
   String getCallData();
 
   /// Gets the call gas limit of the operation.
-  BigInt getCallGasLimit();
+  BigInt? getCallGasLimit();
 
   /// Gets the verification gas limit of the operation.
-  BigInt getVerificationGasLimit();
+  BigInt? getVerificationGasLimit();
 
   /// Gets the pre-verification gas of the operation.
-  BigInt getPreVerificationGas();
+  BigInt? getPreVerificationGas();
 
   /// Gets the max fee per gas of the operation.
   BigInt getMaxFeePerGas();
