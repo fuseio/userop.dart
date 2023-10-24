@@ -1,3 +1,12 @@
+## [0.0.10]
+
+### Changed
+- `callGasLimit`, `verificationGasLimit`, `preVerificationGas` fields are now nullable
+and there aren't any defaults provided for them in the `defaultUserOp` constructor of
+`IUserOperation` class.
+- You can specify default values for `callGasLimit`, `verificationGasLimit`,
+`preVerificationGas` while initializing the `EtherspotWallet`.
+
 ## [0.0.9]
 
 ### Changed
