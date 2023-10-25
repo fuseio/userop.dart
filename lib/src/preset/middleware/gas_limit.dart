@@ -1,4 +1,3 @@
-import 'package:userop/src/constants/defaults.dart';
 import 'package:userop/src/types.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/json_rpc.dart';
@@ -25,9 +24,7 @@ UserOperationMiddlewareFn estimateUserOperationGas(
 ) {
   return (ctx) async {
     if (ctx.op.nonce.compareTo(BigInt.zero) == 0) {
-      final currentVerificationGasLimit =
-          ctx.op.verificationGasLimit ?? Defaults.defaultVerificationGasLimit;
-      ctx.op.verificationGasLimit = currentVerificationGasLimit +
+      ctx.op.verificationGasLimit = ctx.op.verificationGasLimit +
           await estimateCreationGas(client, ctx.op.initCode);
     }
 
