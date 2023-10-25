@@ -1,7 +1,7 @@
 name: userop
 description: A lightweight Dart library for quickly and easily building ERC-4337
   UserOperations.
-version: 0.0.11
+version: 0.0.12
 repository: https://github.com/fuseio/userop.dart
 
 environment:
