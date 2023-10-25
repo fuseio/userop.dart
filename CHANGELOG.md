@@ -1,3 +1,9 @@
+## [0.0.12]
+
+### Reverted
+- The change that removed the defaults for `callGasLimit`, `verificationGasLimit`,
+`preVerificationGas` fields in the `defaultUserOp` constructor of `IUserOperation` class
+
 ## [0.0.11]
 
 ### Fixed
