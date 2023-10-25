@@ -63,17 +63,17 @@ class UserOperationBuilder implements IUserOperationBuilder {
   }
 
   @override
-  BigInt? getCallGasLimit() {
+  BigInt getCallGasLimit() {
     return _currentOp.callGasLimit;
   }
 
   @override
-  BigInt? getVerificationGasLimit() {
+  BigInt getVerificationGasLimit() {
     return _currentOp.verificationGasLimit;
   }
 
   @override
-  BigInt? getPreVerificationGas() {
+  BigInt getPreVerificationGas() {
     return _currentOp.preVerificationGas;
   }
 
