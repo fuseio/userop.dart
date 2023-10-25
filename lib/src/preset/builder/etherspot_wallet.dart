@@ -155,9 +155,17 @@ class EtherspotWallet extends UserOperationBuilder {
     final verificationGasLimit = gasLimitOptions?.verificationGasLimit;
     final preVerificationGas = gasLimitOptions?.preVerificationGas;
 
-    defaults["callGasLimit"] = callGasLimit;
-    defaults["verificationGasLimit"] = verificationGasLimit;
-    defaults["preVerificationGas"] = preVerificationGas;
+    if (callGasLimit != null) {
+      defaults["callGasLimit"] = callGasLimit;
+    }
+
+    if (verificationGasLimit != null) {
+      defaults["verificationGasLimit"] = verificationGasLimit;
+    }
+
+    if (preVerificationGas != null) {
+      defaults["preVerificationGas"] = preVerificationGas;
+    }
   }
 
   /// Executes a transaction on the network.
