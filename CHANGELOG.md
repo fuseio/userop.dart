@@ -1,3 +1,9 @@
+## [0.0.11]
+
+### Fixed
+- The issue with trying to set default values for gas limits
+when the values were not provided.
+
 ## [0.0.10]
 
 ### Changed
