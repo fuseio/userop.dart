@@ -141,7 +141,7 @@ class SimpleAccount extends UserOperationBuilder {
             ),
           );
 
-    return withPM.useMiddleware(eOASignature(instance.credentials))
+    return withPM.useMiddleware(signUserOpHash(instance.credentials))
         as SimpleAccount;
   }
 
