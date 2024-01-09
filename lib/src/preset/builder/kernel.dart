@@ -181,7 +181,7 @@ class Kernel extends UserOperationBuilder {
           );
 
     return withPM
-        .useMiddleware(eOASignature(instance.credentials))
+        .useMiddleware(signUserOpHash(instance.credentials))
         .useMiddleware(instance.sudoMode) as Kernel;
   }
 
