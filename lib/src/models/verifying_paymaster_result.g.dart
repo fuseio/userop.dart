@@ -6,17 +6,17 @@ part of 'verifying_paymaster_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_VerifyingPaymasterResult _$$_VerifyingPaymasterResultFromJson(
+_$VerifyingPaymasterResultImpl _$$VerifyingPaymasterResultImplFromJson(
         Map<String, dynamic> json) =>
-    _$_VerifyingPaymasterResult(
+    _$VerifyingPaymasterResultImpl(
       paymasterAndData: json['paymasterAndData'] as String,
       preVerificationGas: json['preVerificationGas'] as String,
       verificationGasLimit: json['verificationGasLimit'] as String,
       callGasLimit: json['callGasLimit'] as String,
     );
 
-Map<String, dynamic> _$$_VerifyingPaymasterResultToJson(
-        _$_VerifyingPaymasterResult instance) =>
+Map<String, dynamic> _$$VerifyingPaymasterResultImplToJson(
+        _$VerifyingPaymasterResultImpl instance) =>
     <String, dynamic>{
       'paymasterAndData': instance.paymasterAndData,
       'preVerificationGas': instance.preVerificationGas,
