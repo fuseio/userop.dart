@@ -86,12 +86,12 @@ class _$VerifyingPaymasterResultCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_VerifyingPaymasterResultCopyWith<$Res>
+abstract class _$$VerifyingPaymasterResultImplCopyWith<$Res>
     implements $VerifyingPaymasterResultCopyWith<$Res> {
-  factory _$$_VerifyingPaymasterResultCopyWith(
-          _$_VerifyingPaymasterResult value,
-          $Res Function(_$_VerifyingPaymasterResult) then) =
-      __$$_VerifyingPaymasterResultCopyWithImpl<$Res>;
+  factory _$$VerifyingPaymasterResultImplCopyWith(
+          _$VerifyingPaymasterResultImpl value,
+          $Res Function(_$VerifyingPaymasterResultImpl) then) =
+      __$$VerifyingPaymasterResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,12 +102,13 @@ abstract class _$$_VerifyingPaymasterResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_VerifyingPaymasterResultCopyWithImpl<$Res>
+class __$$VerifyingPaymasterResultImplCopyWithImpl<$Res>
     extends _$VerifyingPaymasterResultCopyWithImpl<$Res,
-        _$_VerifyingPaymasterResult>
-    implements _$$_VerifyingPaymasterResultCopyWith<$Res> {
-  __$$_VerifyingPaymasterResultCopyWithImpl(_$_VerifyingPaymasterResult _value,
-      $Res Function(_$_VerifyingPaymasterResult) _then)
+        _$VerifyingPaymasterResultImpl>
+    implements _$$VerifyingPaymasterResultImplCopyWith<$Res> {
+  __$$VerifyingPaymasterResultImplCopyWithImpl(
+      _$VerifyingPaymasterResultImpl _value,
+      $Res Function(_$VerifyingPaymasterResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +119,7 @@ class __$$_VerifyingPaymasterResultCopyWithImpl<$Res>
     Object? verificationGasLimit = null,
     Object? callGasLimit = null,
   }) {
-    return _then(_$_VerifyingPaymasterResult(
+    return _then(_$VerifyingPaymasterResultImpl(
       paymasterAndData: null == paymasterAndData
           ? _value.paymasterAndData
           : paymasterAndData // ignore: cast_nullable_to_non_nullable
@@ -141,15 +142,15 @@ class __$$_VerifyingPaymasterResultCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_VerifyingPaymasterResult implements _VerifyingPaymasterResult {
-  _$_VerifyingPaymasterResult(
+class _$VerifyingPaymasterResultImpl implements _VerifyingPaymasterResult {
+  _$VerifyingPaymasterResultImpl(
       {required this.paymasterAndData,
       required this.preVerificationGas,
       required this.verificationGasLimit,
       required this.callGasLimit});
 
-  factory _$_VerifyingPaymasterResult.fromJson(Map<String, dynamic> json) =>
-      _$$_VerifyingPaymasterResultFromJson(json);
+  factory _$VerifyingPaymasterResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VerifyingPaymasterResultImplFromJson(json);
 
   @override
   final String paymasterAndData;
@@ -166,10 +167,10 @@ class _$_VerifyingPaymasterResult implements _VerifyingPaymasterResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_VerifyingPaymasterResult &&
+            other is _$VerifyingPaymasterResultImpl &&
             (identical(other.paymasterAndData, paymasterAndData) ||
                 other.paymasterAndData == paymasterAndData) &&
             (identical(other.preVerificationGas, preVerificationGas) ||
@@ -188,13 +189,13 @@ class _$_VerifyingPaymasterResult implements _VerifyingPaymasterResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_VerifyingPaymasterResultCopyWith<_$_VerifyingPaymasterResult>
-      get copyWith => __$$_VerifyingPaymasterResultCopyWithImpl<
-          _$_VerifyingPaymasterResult>(this, _$identity);
+  _$$VerifyingPaymasterResultImplCopyWith<_$VerifyingPaymasterResultImpl>
+      get copyWith => __$$VerifyingPaymasterResultImplCopyWithImpl<
+          _$VerifyingPaymasterResultImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_VerifyingPaymasterResultToJson(
+    return _$$VerifyingPaymasterResultImplToJson(
       this,
     );
   }
@@ -205,10 +206,10 @@ abstract class _VerifyingPaymasterResult implements VerifyingPaymasterResult {
       {required final String paymasterAndData,
       required final String preVerificationGas,
       required final String verificationGasLimit,
-      required final String callGasLimit}) = _$_VerifyingPaymasterResult;
+      required final String callGasLimit}) = _$VerifyingPaymasterResultImpl;
 
   factory _VerifyingPaymasterResult.fromJson(Map<String, dynamic> json) =
-      _$_VerifyingPaymasterResult.fromJson;
+      _$VerifyingPaymasterResultImpl.fromJson;
 
   @override
   String get paymasterAndData;
@@ -220,6 +221,6 @@ abstract class _VerifyingPaymasterResult implements VerifyingPaymasterResult {
   String get callGasLimit;
   @override
   @JsonKey(ignore: true)
-  _$$_VerifyingPaymasterResultCopyWith<_$_VerifyingPaymasterResult>
+  _$$VerifyingPaymasterResultImplCopyWith<_$VerifyingPaymasterResultImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

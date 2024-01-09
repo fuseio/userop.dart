@@ -86,11 +86,11 @@ class _$GasEstimateCopyWithImpl<$Res, $Val extends GasEstimate>
 }
 
 /// @nodoc
-abstract class _$$_GasEstimateCopyWith<$Res>
+abstract class _$$GasEstimateImplCopyWith<$Res>
     implements $GasEstimateCopyWith<$Res> {
-  factory _$$_GasEstimateCopyWith(
-          _$_GasEstimate value, $Res Function(_$_GasEstimate) then) =
-      __$$_GasEstimateCopyWithImpl<$Res>;
+  factory _$$GasEstimateImplCopyWith(
+          _$GasEstimateImpl value, $Res Function(_$GasEstimateImpl) then) =
+      __$$GasEstimateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -101,11 +101,11 @@ abstract class _$$_GasEstimateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GasEstimateCopyWithImpl<$Res>
-    extends _$GasEstimateCopyWithImpl<$Res, _$_GasEstimate>
-    implements _$$_GasEstimateCopyWith<$Res> {
-  __$$_GasEstimateCopyWithImpl(
-      _$_GasEstimate _value, $Res Function(_$_GasEstimate) _then)
+class __$$GasEstimateImplCopyWithImpl<$Res>
+    extends _$GasEstimateCopyWithImpl<$Res, _$GasEstimateImpl>
+    implements _$$GasEstimateImplCopyWith<$Res> {
+  __$$GasEstimateImplCopyWithImpl(
+      _$GasEstimateImpl _value, $Res Function(_$GasEstimateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -116,7 +116,7 @@ class __$$_GasEstimateCopyWithImpl<$Res>
     Object? callGasLimit = null,
     Object? verificationGas = null,
   }) {
-    return _then(_$_GasEstimate(
+    return _then(_$GasEstimateImpl(
       verificationGasLimit: freezed == verificationGasLimit
           ? _value.verificationGasLimit
           : verificationGasLimit // ignore: cast_nullable_to_non_nullable
@@ -139,15 +139,15 @@ class __$$_GasEstimateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GasEstimate implements _GasEstimate {
-  _$_GasEstimate(
+class _$GasEstimateImpl implements _GasEstimate {
+  _$GasEstimateImpl(
       {required this.verificationGasLimit,
       required this.preVerificationGas,
       required this.callGasLimit,
       required this.verificationGas});
 
-  factory _$_GasEstimate.fromJson(Map<String, dynamic> json) =>
-      _$$_GasEstimateFromJson(json);
+  factory _$GasEstimateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GasEstimateImplFromJson(json);
 
   @override
   final String? verificationGasLimit;
@@ -166,10 +166,10 @@ class _$_GasEstimate implements _GasEstimate {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GasEstimate &&
+            other is _$GasEstimateImpl &&
             (identical(other.verificationGasLimit, verificationGasLimit) ||
                 other.verificationGasLimit == verificationGasLimit) &&
             (identical(other.preVerificationGas, preVerificationGas) ||
@@ -188,12 +188,12 @@ class _$_GasEstimate implements _GasEstimate {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GasEstimateCopyWith<_$_GasEstimate> get copyWith =>
-      __$$_GasEstimateCopyWithImpl<_$_GasEstimate>(this, _$identity);
+  _$$GasEstimateImplCopyWith<_$GasEstimateImpl> get copyWith =>
+      __$$GasEstimateImplCopyWithImpl<_$GasEstimateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GasEstimateToJson(
+    return _$$GasEstimateImplToJson(
       this,
     );
   }
@@ -204,10 +204,10 @@ abstract class _GasEstimate implements GasEstimate {
       {required final String? verificationGasLimit,
       required final String preVerificationGas,
       required final String callGasLimit,
-      required final String verificationGas}) = _$_GasEstimate;
+      required final String verificationGas}) = _$GasEstimateImpl;
 
   factory _GasEstimate.fromJson(Map<String, dynamic> json) =
-      _$_GasEstimate.fromJson;
+      _$GasEstimateImpl.fromJson;
 
   @override
   String? get verificationGasLimit;
@@ -221,6 +221,6 @@ abstract class _GasEstimate implements GasEstimate {
   String get verificationGas;
   @override
   @JsonKey(ignore: true)
-  _$$_GasEstimateCopyWith<_$_GasEstimate> get copyWith =>
+  _$$GasEstimateImplCopyWith<_$GasEstimateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
