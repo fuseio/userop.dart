@@ -1,3 +1,9 @@
+## [0.1.0]
+
+### Changed
+- Deprecated `EOASignature` middleware, replaced with `signUserOpHash`.
+- Removed `estimateCreationGas` from gasLimit middleware for redundancy reduction.
+
 ## [0.0.12]
 
 ### Reverted
