@@ -25,7 +25,7 @@ class EtherspotWallet extends UserOperationBuilder {
   late String initCode;
 
   /// The nonce key to use the Semi-Abstract-Nonce mechanism.
-  late final BigInt nonceKey;
+  late BigInt nonceKey;
 
   /// The proxy instance to interact with the EtherspotWallet contract.
   late etherspot_wallet_impl.EtherspotWallet proxy;
