@@ -282,6 +282,7 @@ class IPresetBuilderOpts {
   BigInt? salt;
   EthereumAddress? factoryAddress;
   UserOperationMiddlewareFn? paymasterMiddleware;
+  BigInt? nonceKey;
   String? overrideBundlerRpc;
   GasLimitOptions? gasLimitOptions;
 
@@ -290,9 +291,30 @@ class IPresetBuilderOpts {
     this.salt,
     this.factoryAddress,
     this.paymasterMiddleware,
+    this.nonceKey,
     this.overrideBundlerRpc,
     this.gasLimitOptions,
   });
+
+  IPresetBuilderOpts copyWith({
+    EthereumAddress? entryPoint,
+    BigInt? salt,
+    EthereumAddress? factoryAddress,
+    UserOperationMiddlewareFn? paymasterMiddleware,
+    BigInt? nonceKey,
+    String? overrideBundlerRpc,
+    GasLimitOptions? gasLimitOptions,
+  }) {
+    return IPresetBuilderOpts(
+      entryPoint: entryPoint ?? this.entryPoint,
+      salt: salt ?? this.salt,
+      factoryAddress: factoryAddress ?? this.factoryAddress,
+      paymasterMiddleware: paymasterMiddleware ?? this.paymasterMiddleware,
+      nonceKey: nonceKey ?? this.nonceKey,
+      overrideBundlerRpc: overrideBundlerRpc ?? this.overrideBundlerRpc,
+      gasLimitOptions: gasLimitOptions ?? this.gasLimitOptions,
+    );
+  }
 }
 
 class GasLimitOptions {

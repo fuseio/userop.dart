@@ -24,6 +24,9 @@ class EtherspotWallet extends UserOperationBuilder {
   /// The initialization code for the contract.
   late String initCode;
 
+  /// The nonce key to use the Semi-Abstract-Nonce mechanism.
+  late final BigInt nonceKey;
+
   /// The proxy instance to interact with the EtherspotWallet contract.
   late etherspot_wallet_impl.EtherspotWallet proxy;
 
@@ -51,6 +54,7 @@ class EtherspotWallet extends UserOperationBuilder {
       client: web3client,
     );
     initCode = '0x';
+    nonceKey = opts?.nonceKey ?? BigInt.zero;
     proxy = etherspot_wallet_impl.EtherspotWallet(
       address: EthereumAddress.fromHex(Addresses.AddressZero),
       client: web3client,
@@ -61,7 +65,7 @@ class EtherspotWallet extends UserOperationBuilder {
   Future<void> resolveAccount(ctx) async {
     ctx.op.nonce = await entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
-      BigInt.zero,
+      nonceKey
     );
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
