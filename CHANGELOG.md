@@ -1,3 +1,8 @@
+## [0.1.2]
+
+### Added
+- Allow to specify nonce key in `getNonce` method.
+
 ## [0.1.0]
 
 ### Changed

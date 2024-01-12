@@ -282,6 +282,7 @@ class IPresetBuilderOpts {
   BigInt? salt;
   EthereumAddress? factoryAddress;
   UserOperationMiddlewareFn? paymasterMiddleware;
+  BigInt? nonceKey;
   String? overrideBundlerRpc;
   GasLimitOptions? gasLimitOptions;
 
@@ -290,6 +291,7 @@ class IPresetBuilderOpts {
     this.salt,
     this.factoryAddress,
     this.paymasterMiddleware,
+    this.nonceKey,
     this.overrideBundlerRpc,
     this.gasLimitOptions,
   });

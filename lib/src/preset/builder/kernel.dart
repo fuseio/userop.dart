@@ -33,6 +33,9 @@ class Kernel extends UserOperationBuilder {
   /// The initialization code for the contract.
   late String initCode;
 
+  /// The nonce key to use the Semi-Abstract-Nonce mechanism.
+  late final BigInt nonceKey;
+
   /// The proxy instance to interact with the Kernel contract.
   late kernel_impl.Kernel proxy;
 
@@ -59,6 +62,7 @@ class Kernel extends UserOperationBuilder {
       client: web3client,
     );
     initCode = '0x';
+    nonceKey = opts.nonceKey ?? BigInt.zero;
     multisend = Multisend(
       address: EthereumAddress.fromHex(Addresses.AddressZero),
       client: web3client,
@@ -73,7 +77,7 @@ class Kernel extends UserOperationBuilder {
   Future<void> resolveAccount(ctx) async {
     ctx.op.nonce = await entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
-      BigInt.zero,
+      nonceKey,
     );
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
