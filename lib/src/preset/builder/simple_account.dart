@@ -82,42 +82,14 @@ class SimpleAccount extends UserOperationBuilder {
   }) async {
     final instance = SimpleAccount(credentials, rpcUrl, opts: opts);
 
-    try {
-      final List<String> inputArr = [
-        instance.simpleAccountFactory.self.address.toString(),
-        bytesToHex(
-          instance.simpleAccountFactory.self
-              .function('createAccount')
-              .encodeCall(
-            [
-              credentials.address,
-              opts?.salt ?? BigInt.zero,
-            ],
-          ),
-          include0x: true,
-        ),
-      ];
-      instance.initCode =
-          '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
-      final ethCallData = bytesToHex(
-        instance.entryPoint.self.function('getSenderAddress').encodeCall([
-          hexToBytes(instance.initCode),
-        ]),
-        include0x: true,
-      );
-      await instance.provider.call('eth_call', [
-        {
-          'to': instance.entryPoint.self.address.toString(),
-          'data': ethCallData,
-        }
-      ]);
-    } on RPCError catch (e) {
-      final smartContractAddress = '0x${(e.data as String).lastChars(40)}';
-      instance.proxy = simple_account_impl.SimpleAccount(
-        address: EthereumAddress.fromHex(smartContractAddress),
-        client: instance.simpleAccountFactory.client,
-      );
-    }
+    final smartContractAddress = await instance.simpleAccountFactory.getAddress(
+      credentials.address,
+      opts?.salt ?? BigInt.zero,
+    );
+    instance.proxy = simple_account_impl.SimpleAccount(
+      address: smartContractAddress,
+      client: instance.simpleAccountFactory.client,
+    );
 
     final baseInstance = instance
         .useDefaults({

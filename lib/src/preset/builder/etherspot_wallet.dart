@@ -65,7 +65,7 @@ class EtherspotWallet extends UserOperationBuilder {
   Future<void> resolveAccount(ctx) async {
     ctx.op.nonce = await entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
-      nonceKey
+      nonceKey,
     );
     ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
   }
@@ -78,57 +78,26 @@ class EtherspotWallet extends UserOperationBuilder {
   }) async {
     final instance = EtherspotWallet(credentials, rpcUrl, opts: opts);
 
-    try {
-      final List<String> inputArr = [
-        instance.etherspotWalletFactory.self.address.toString(),
-        bytesToHex(
-          instance.etherspotWalletFactory.self
-              .function('createAccount')
-              .encodeCall(
-            [
-              credentials.address,
-              opts?.salt ?? BigInt.zero,
-            ],
-          ),
-          include0x: true,
-        ),
-      ];
-      instance.initCode =
-          '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
-      final ethCallData = bytesToHex(
-        instance.entryPoint.self.function('getSenderAddress').encodeCall([
-          hexToBytes(instance.initCode),
-        ]),
-        include0x: true,
-      );
-      await instance.provider.call('eth_call', [
-        {
-          'to': instance.entryPoint.self.address.toString(),
-          'data': ethCallData,
-        }
-      ]);
-    } on RPCError catch (e) {
-      final smartContractAddress = '0x${(e.data as String).lastChars(40)}';
-      instance.proxy = etherspot_wallet_impl.EtherspotWallet(
-        address: EthereumAddress.fromHex(smartContractAddress),
-        client: instance.etherspotWalletFactory.client,
-      );
-    }
-
-    final defaults = {
-      'sender': instance.proxy.self.address.toString(),
-      'signature': bytesToHex(
-        credentials.signPersonalMessageToUint8List(
-          Uint8List.fromList('0xdead'.codeUnits),
-        ),
-        include0x: true,
-      ),
-    };
-
-    _setDefaultGasLimitsIfProvided(opts, defaults);
+    final smartContractAddress =
+        await instance.etherspotWalletFactory.getAddress(
+      credentials.address,
+      opts?.salt ?? BigInt.zero,
+    );
+    instance.proxy = etherspot_wallet_impl.EtherspotWallet(
+      address: smartContractAddress,
+      client: instance.etherspotWalletFactory.client,
+    );
 
     final baseInstance = instance
-        .useDefaults(defaults)
+        .useDefaults({
+          'sender': instance.proxy.self.address.toString(),
+          'signature': bytesToHex(
+            credentials.signPersonalMessageToUint8List(
+              Uint8List.fromList('0xdead'.codeUnits),
+            ),
+            include0x: true,
+          ),
+        })
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
           instance.etherspotWalletFactory.client,
@@ -147,29 +116,6 @@ class EtherspotWallet extends UserOperationBuilder {
 
     return withPM.useMiddleware(signUserOpHash(instance.credentials))
         as EtherspotWallet;
-  }
-
-  static void _setDefaultGasLimitsIfProvided(
-    IPresetBuilderOpts? opts,
-    Map<String, dynamic> defaults,
-  ) {
-    final gasLimitOptions = opts?.gasLimitOptions;
-
-    final callGasLimit = gasLimitOptions?.callGasLimit;
-    final verificationGasLimit = gasLimitOptions?.verificationGasLimit;
-    final preVerificationGas = gasLimitOptions?.preVerificationGas;
-
-    if (callGasLimit != null) {
-      defaults["callGasLimit"] = callGasLimit;
-    }
-
-    if (verificationGasLimit != null) {
-      defaults["verificationGasLimit"] = verificationGasLimit;
-    }
-
-    if (preVerificationGas != null) {
-      defaults["preVerificationGas"] = preVerificationGas;
-    }
   }
 
   /// Executes a transaction on the network.
