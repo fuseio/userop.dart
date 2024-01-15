@@ -284,29 +284,6 @@ class IPresetBuilderOpts {
   UserOperationMiddlewareFn? paymasterMiddleware;
   BigInt? nonceKey;
   String? overrideBundlerRpc;
-  GasLimitOptions? gasLimitOptions;
-
-  IPresetBuilderOpts({
-    this.entryPoint,
-    this.salt,
-    this.factoryAddress,
-    this.paymasterMiddleware,
-    this.nonceKey,
-    this.overrideBundlerRpc,
-    this.gasLimitOptions,
-  });
-}
-
-class GasLimitOptions {
-  final BigInt? callGasLimit;
-  final BigInt? verificationGasLimit;
-  final BigInt? preVerificationGas;
-
-  const GasLimitOptions({
-    this.callGasLimit,
-    this.verificationGasLimit,
-    this.preVerificationGas,
-  });
 }
 
 class Call {
