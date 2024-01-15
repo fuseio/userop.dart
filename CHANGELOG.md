@@ -1,3 +1,8 @@
+## [0.1.3]
+
+### Changed
+- Retrieve the Smart Contract Account (SCA) from the wallet factory, rather than from the EntryPoint.
+
 ## [0.1.2]
 
 ### Added
