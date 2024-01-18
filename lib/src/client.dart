@@ -107,7 +107,7 @@ class Client implements IClient {
               entryPoint.self.event('UserOperationEvent');
           final filterEvent = await web3client
               .events(
-                FilterUserOperationEventEventFilter.events(
+                UserOperationEventEventFilter.events(
                   contract: entryPoint.self,
                   event: userOperationEvent,
                   userOpHash: userOpHash,
