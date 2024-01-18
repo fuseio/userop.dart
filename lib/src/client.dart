@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:userop/src/constants/erc_4337.dart';
 import 'package:userop/src/context.dart';
+import 'package:userop/src/extensions/filter_options.dart';
 import 'package:userop/src/typechain/EntryPoint.g.dart';
 import 'package:userop/src/types.dart';
 import 'package:web3dart/crypto.dart';
@@ -106,9 +107,10 @@ class Client implements IClient {
               entryPoint.self.event('UserOperationEvent');
           final filterEvent = await web3client
               .events(
-                FilterOptions.events(
+                FilterUserOperationEventEventFilter.events(
                   contract: entryPoint.self,
                   event: userOperationEvent,
+                  userOpHash: userOpHash,
                   fromBlock: BlockNum.exact(block - 100),
                 ),
               )
