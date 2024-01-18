@@ -1,3 +1,8 @@
+## [0.1.4]
+
+### Fixed
+- Filter user operation using the `userOpHash`
+
 ## [0.1.3]
 
 ### Changed
