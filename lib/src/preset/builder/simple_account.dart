@@ -82,6 +82,20 @@ class SimpleAccount extends UserOperationBuilder {
   }) async {
     final instance = SimpleAccount(credentials, rpcUrl, opts: opts);
 
+    final List<String> inputArr = [
+      instance.simpleAccountFactory.self.address.toString(),
+      bytesToHex(
+        instance.simpleAccountFactory.self.function('createAccount').encodeCall(
+          [
+            credentials.address,
+            opts?.salt ?? BigInt.zero,
+          ],
+        ),
+        include0x: true,
+      ),
+    ];
+    instance.initCode =
+        '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
     final smartContractAddress = await instance.simpleAccountFactory.getAddress(
       credentials.address,
       opts?.salt ?? BigInt.zero,

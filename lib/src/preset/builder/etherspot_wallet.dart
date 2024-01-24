@@ -77,6 +77,22 @@ class EtherspotWallet extends UserOperationBuilder {
     IPresetBuilderOpts? opts,
   }) async {
     final instance = EtherspotWallet(credentials, rpcUrl, opts: opts);
+    final List<String> inputArr = [
+      instance.etherspotWalletFactory.self.address.toString(),
+      bytesToHex(
+        instance.etherspotWalletFactory.self
+            .function('createAccount')
+            .encodeCall(
+          [
+            credentials.address,
+            opts?.salt ?? BigInt.zero,
+          ],
+        ),
+        include0x: true,
+      ),
+    ];
+    instance.initCode =
+        '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
 
     final smartContractAddress =
         await instance.etherspotWalletFactory.getAddress(
