@@ -1,3 +1,8 @@
+## [0.1.5]
+
+### Fixed
+- Init code is required for the contract creation.
+
 ## [0.1.4]
 
 ### Fixed
