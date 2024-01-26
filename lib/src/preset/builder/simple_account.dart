@@ -78,8 +78,8 @@ class SimpleAccount extends UserOperationBuilder {
 
     final results = await Future.wait([nonce, code]);
     ctx.op.nonce = results[0];
-    RPCResponse response = results[1] as RPCResponse;
-    ctx.op.initCode = response.result == "0x" ? initCode : "0x";
+    final codeResponse = results[1] as RPCResponse;
+    ctx.op.initCode = codeResponse.result == "0x" ? initCode : "0x";
   }
 
   /// Initializes a SimpleAccount object and returns it.
