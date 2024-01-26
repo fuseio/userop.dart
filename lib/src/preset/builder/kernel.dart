@@ -75,11 +75,19 @@ class Kernel extends UserOperationBuilder {
 
   /// Resolves the nonce and init code for the SimpleAccount contract creation.
   Future<void> resolveAccount(ctx) async {
-    ctx.op.nonce = await entryPoint.getNonce(
+    final nonce = entryPoint.getNonce(
       EthereumAddress.fromHex(ctx.op.sender),
       nonceKey,
     );
-    ctx.op.initCode = ctx.op.nonce == BigInt.zero ? initCode : "0x";
+    final code = provider.call('eth_getCode', [
+      ctx.op.sender,
+      'latest',
+    ]);
+
+    final results = await Future.wait([nonce, code]);
+    ctx.op.nonce = results[0];
+    final codeResponse = results[1] as RPCResponse;
+    ctx.op.initCode = codeResponse.result == "0x" ? initCode : "0x";
   }
 
   Future<void> sudoMode(ctx) async {
