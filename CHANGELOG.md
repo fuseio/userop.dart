@@ -1,3 +1,8 @@
+## [0.1.6]
+
+### Fixed
+- Prevent AA20 when deploying new Account with nonceKey > 0 by
+
 ## [0.1.5]
 
 ### Fixed
