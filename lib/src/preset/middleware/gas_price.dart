@@ -14,6 +14,7 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 
   final fee = results[0] as String;
   final block = results[1] as BlockInformation;
+  // Removed debug log statement
 
   final tip = BigInt.parse(fee);
   final buffer = tip ~/ BigInt.from(100) * BigInt.from(13);
