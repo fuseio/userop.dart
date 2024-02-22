@@ -1,10 +1,21 @@
 import 'package:userop/src/models/index.dart';
 import 'package:userop/src/utils.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:userop/src/utils.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:userop/src/models/index.dart';
+import 'package:userop/src/utils.dart';
+import 'package:userop/src/models/index.dart';
+
+import 'package:userop/src/utils.dart';
+import 'package:web3dart/web3dart.dart';
+
+import 'package:userop/src/utils.dart';
+import 'package:web3dart/web3dart.dart';
 
 import '../../types.dart';
 
-Future<Map<String, dynamic>> eip1559GasPrice(
+Future<Map<String, dynamic>> legacyGasPrice(Web3Client client)(
   Web3Client client,
   RpcService provider,
 ) async {
@@ -34,6 +45,12 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 }
 
 Future<Map<String, dynamic>> legacyGasPrice(Web3Client client) async {
+  final gas = await client.getGasPrice();
+
+  return {
+    'maxFeePerGas': gas.getInWei,
+    'maxPriorityFeePerGas': gas.getInWei,
+  }; async {
   final gas = await client.getGasPrice();
 
   return {
