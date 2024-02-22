@@ -1,4 +1,5 @@
-import 'package:web3dart/json_rpc.dart';
+import 'package:userop/src/models/index.dart';
+import 'package:userop/src/utils.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../../types.dart';
@@ -14,6 +15,10 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 
   final fee = results[0] as String;
   final block = results[1] as BlockInformation;
+  return {
+    'maxFeePerGas': maxFeePerGas.toString(),
+    'maxPriorityFeePerGas': maxPriorityFeePerGas.toString()
+  };
 
   final tip = BigInt.parse(fee);
   final buffer = tip ~/ BigInt.from(100) * BigInt.from(13);
@@ -49,10 +54,6 @@ UserOperationMiddlewareFn getGasPrice(
       ctx.op.maxFeePerGas = gasPrices['maxFeePerGas'];
       ctx.op.maxPriorityFeePerGas = gasPrices['maxPriorityFeePerGas'];
       return;
-    } catch (error) {
-      eip1559Error = error;
-    }
-
     try {
       final gasPrices = await legacyGasPrice(client);
       ctx.op.maxFeePerGas = gasPrices['maxFeePerGas'];
