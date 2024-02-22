@@ -1,3 +1,11 @@
+## [0.1.7]
+
+### Fixed
+- Retrieving the gas price for chains compatible with EIP-1559.
+
+### Changed
+- The condition to skip the `getGasPrice` middleware when both `maxFeePerGas` and `maxPriorityFeePerGas` are specified has been removed.
+
 ## [0.1.6]
 
 ### Fixed

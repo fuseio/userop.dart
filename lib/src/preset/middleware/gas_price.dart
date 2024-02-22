@@ -9,16 +9,18 @@ Future<Map<String, dynamic>> eip1559GasPrice(
 ) async {
   final List<dynamic> results = await Future.wait([
     provider.call("eth_maxPriorityFeePerGas", []),
-    client.getBlockNumber(),
+    client.getBlockInformation(),
   ]);
 
   final fee = results[0] as String;
+  final block = results[1] as BlockInformation;
 
   final tip = BigInt.parse(fee);
-  final mul = 100 * 13;
-  final buffer = BigInt.parse((tip / BigInt.parse(mul.toString())) as String);
+  final buffer = tip ~/ BigInt.from(100) * BigInt.from(13);
   final maxPriorityFeePerGas = tip + buffer;
-  final maxFeePerGas = maxPriorityFeePerGas;
+  final maxFeePerGas = block.baseFeePerGas != null
+      ? (block.baseFeePerGas!.getInWei * BigInt.from(2)) + maxPriorityFeePerGas
+      : maxPriorityFeePerGas;
 
   return {
     'maxFeePerGas': maxFeePerGas.toString(),
@@ -41,10 +43,6 @@ UserOperationMiddlewareFn getGasPrice(
 ) {
   return (ctx) async {
     Object? eip1559Error;
-    if (ctx.op.maxFeePerGas > BigInt.zero &&
-        ctx.op.maxPriorityFeePerGas > BigInt.zero) {
-      return;
-    }
 
     try {
       final gasPrices = await eip1559GasPrice(client, provider);
