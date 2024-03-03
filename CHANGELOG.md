@@ -1,3 +1,8 @@
+## [0.1.8]
+
+### Fixed
+- Retrieving the gas price for chains compatible with EIP-1559.
+
 ## [0.1.7]
 
 ### Fixed
