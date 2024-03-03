@@ -12,7 +12,7 @@ Future<Map<String, dynamic>> eip1559GasPrice(
     client.getBlockInformation(),
   ]);
 
-  final fee = results[0] as String;
+  final fee = (results[0] as RPCResponse).result;
   final block = results[1] as BlockInformation;
 
   final tip = BigInt.parse(fee);
@@ -23,8 +23,8 @@ Future<Map<String, dynamic>> eip1559GasPrice(
       : maxPriorityFeePerGas;
 
   return {
-    'maxFeePerGas': maxFeePerGas.toString(),
-    'maxPriorityFeePerGas': maxPriorityFeePerGas.toString()
+    'maxFeePerGas': maxFeePerGas,
+    'maxPriorityFeePerGas': maxPriorityFeePerGas
   };
 }
 
