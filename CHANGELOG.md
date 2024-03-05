@@ -1,3 +1,8 @@
+## [0.1.9]
+
+### Changed
+- Downgrade `http` package to `1.2.0`.
+
 ## [0.1.8]
 
 ### Fixed
