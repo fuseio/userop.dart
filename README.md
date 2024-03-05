@@ -32,6 +32,10 @@
 
 ## Introduction
 
+`userop.dart` version 0.1.9 introduces a new feature which downgrades the `http` package to `1.2.0`. This release also includes new commands that provide enhancements to the user operations.
+
+For detailed information about the changes made in version 0.1.9, refer to the [CHANGELOG.md](CHANGELOG.md) file.
+
 #### What is userop.dart?
 
 `userop.dart` is a comprehensive library tailored for crafting ERC-4337 User Operations. While `web3dart` equips developers to effortlessly generate standard EVM transactions, `userop.dart` streamlines the creation and dispatch of User Operations to ERC-4337 Bundlers.
@@ -61,9 +65,9 @@ dependencies:
 
 ## Client
 
-Connecting to an ERC-4337 bundler is easy using `userop.dart`
+Connecting to an ERC-4337 bundler is easy using `userop.dart` version 0.1.9
 
-`userop.dart` allows you connect to a bundler RPC using the client interface.
+`userop.dart` version 0.1.9 allows you to connect to a bundler RPC using the client interface. This version provides enhanced functionalities for interacting with the ERC-4337 bundler.
 
 An instance of a client is an abstraction for building and sending your User Operations to the `eth_sendUserOperation` RPC method on a bundler.
 
