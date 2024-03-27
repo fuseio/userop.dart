@@ -1,18 +1,16 @@
-import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 
-import '../../types.dart';
+import 'package:userop/src/types.dart';
 
 Future<Map<String, dynamic>> eip1559GasPrice(
   Web3Client client,
-  RpcService provider,
 ) async {
   final List<dynamic> results = await Future.wait([
-    provider.call("eth_maxPriorityFeePerGas", []),
+    client.makeRPCCall<String>("eth_maxPriorityFeePerGas", []),
     client.getBlockInformation(),
   ]);
 
-  final fee = (results[0] as RPCResponse).result;
+  final fee = results[0];
   final block = results[1] as BlockInformation;
 
   final tip = BigInt.parse(fee);
@@ -39,13 +37,12 @@ Future<Map<String, dynamic>> legacyGasPrice(Web3Client client) async {
 
 UserOperationMiddlewareFn getGasPrice(
   Web3Client client,
-  RpcService provider,
 ) {
   return (ctx) async {
     Object? eip1559Error;
 
     try {
-      final gasPrices = await eip1559GasPrice(client, provider);
+      final gasPrices = await eip1559GasPrice(client);
       ctx.op.maxFeePerGas = gasPrices['maxFeePerGas'];
       ctx.op.maxPriorityFeePerGas = gasPrices['maxPriorityFeePerGas'];
       return;

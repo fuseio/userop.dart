@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:web3dart/crypto.dart';
-import 'package:web3dart/json_rpc.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:web3dart/crypto.dart';
 
 import '../../../userop.dart';
 import '../../typechain/EtherspotWallet.g.dart' as etherspot_wallet_impl;
@@ -11,9 +11,6 @@ import '../../typechain/index.dart';
 /// This class provides methods for interacting with an 4337 EtherspotWallet.
 class EtherspotWallet extends UserOperationBuilder {
   final EthPrivateKey credentials;
-
-  /// The Bundler RPC service instance to interact with the network.
-  late final RpcService provider;
 
   /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
@@ -41,9 +38,6 @@ class EtherspotWallet extends UserOperationBuilder {
     ).setBundlerRpc(
       opts?.overrideBundlerRpc,
     ));
-    provider = BundlerJsonRpcProvider(rpcUrl, http.Client()).setBundlerRpc(
-      opts?.overrideBundlerRpc,
-    );
     entryPoint = EntryPoint(
       address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
@@ -63,19 +57,19 @@ class EtherspotWallet extends UserOperationBuilder {
 
   /// Resolves the nonce and init code for the EtherspotWallet contract creation.
   Future<void> resolveAccount(ctx) async {
-    final nonce = entryPoint.getNonce(
-      EthereumAddress.fromHex(ctx.op.sender),
-      nonceKey,
-    );
-    final code = provider.call('eth_getCode', [
-      ctx.op.sender,
-      'latest',
+    final results = await Future.wait([
+      entryPoint.getNonce(
+        EthereumAddress.fromHex(ctx.op.sender),
+        nonceKey,
+      ),
+      entryPoint.client.makeRPCCall<String>('eth_getCode', [
+        ctx.op.sender,
+        'latest',
+      ]),
     ]);
-
-    final results = await Future.wait([nonce, code]);
     ctx.op.nonce = results[0];
-    final codeResponse = results[1] as RPCResponse;
-    ctx.op.initCode = codeResponse.result == "0x" ? initCode : "0x";
+    final code = results[1];
+    ctx.op.initCode = code == "0x" ? initCode : "0x";
   }
 
   /// Initializes a EtherspotWallet object and returns it.
@@ -125,7 +119,6 @@ class EtherspotWallet extends UserOperationBuilder {
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
           instance.etherspotWalletFactory.client,
-          instance.provider,
         ));
 
     final withPM = opts?.paymasterMiddleware != null
@@ -134,7 +127,6 @@ class EtherspotWallet extends UserOperationBuilder {
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
               instance.etherspotWalletFactory.client,
-              instance.provider,
             ),
           );
 

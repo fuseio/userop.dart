@@ -1,3 +1,8 @@
+## [0.2.0]
+
+### Added
+- `socketConnector` has been added to the `IClientOpts` interface. It allows you to specify a custom socket connector for the `Web3Client` instance.
+
 ## [0.1.9]
 
 ### Changed
