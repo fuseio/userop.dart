@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:stream_channel/stream_channel.dart';
 import 'package:userop/userop.dart';
 
 /// `IUserOperation` is a class representing an ERC-4337 User Operation.
@@ -255,6 +256,7 @@ abstract class IClient {
 class IClientOpts {
   EthereumAddress? entryPoint;
   String? overrideBundlerRpc;
+  StreamChannel<String> Function()? socketConnector;
 }
 
 /// Options for sending user operations.

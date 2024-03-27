@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:web3dart/crypto.dart';
-import 'package:web3dart/json_rpc.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:web3dart/crypto.dart';
 
 import '../../../userop.dart';
 import '../../typechain/SimpleAccount.g.dart' as simple_account_impl;
@@ -15,9 +15,6 @@ extension E on String {
 /// This class provides methods for interacting with an 4337 simple account.
 class SimpleAccount extends UserOperationBuilder {
   final EthPrivateKey credentials;
-
-  /// The Bundler RPC service instance to interact with the network.
-  late final RpcService provider;
 
   /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
@@ -45,9 +42,6 @@ class SimpleAccount extends UserOperationBuilder {
     ).setBundlerRpc(
       opts?.overrideBundlerRpc,
     ));
-    provider = BundlerJsonRpcProvider(rpcUrl, http.Client()).setBundlerRpc(
-      opts?.overrideBundlerRpc,
-    );
     entryPoint = EntryPoint(
       address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
@@ -67,19 +61,19 @@ class SimpleAccount extends UserOperationBuilder {
 
   /// Resolves the nonce and init code for the SimpleAccount contract creation.
   Future<void> resolveAccount(ctx) async {
-    final nonce = entryPoint.getNonce(
-      EthereumAddress.fromHex(ctx.op.sender),
-      nonceKey,
-    );
-    final code = provider.call('eth_getCode', [
-      ctx.op.sender,
-      'latest',
+    final results = await Future.wait([
+      entryPoint.getNonce(
+        EthereumAddress.fromHex(ctx.op.sender),
+        nonceKey,
+      ),
+      entryPoint.client.makeRPCCall<String>('eth_getCode', [
+        ctx.op.sender,
+        'latest',
+      ])
     ]);
-
-    final results = await Future.wait([nonce, code]);
     ctx.op.nonce = results[0];
-    final codeResponse = results[1] as RPCResponse;
-    ctx.op.initCode = codeResponse.result == "0x" ? initCode : "0x";
+    final code = results[1];
+    ctx.op.initCode = code == "0x" ? initCode : "0x";
   }
 
   /// Initializes a SimpleAccount object and returns it.
@@ -126,7 +120,6 @@ class SimpleAccount extends UserOperationBuilder {
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
           instance.simpleAccountFactory.client,
-          instance.provider,
         ));
 
     final withPM = opts?.paymasterMiddleware != null
@@ -135,7 +128,6 @@ class SimpleAccount extends UserOperationBuilder {
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
               instance.simpleAccountFactory.client,
-              instance.provider,
             ),
           );
 

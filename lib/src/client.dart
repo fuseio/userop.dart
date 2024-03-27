@@ -1,12 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
+
 import 'package:userop/src/constants/erc_4337.dart';
 import 'package:userop/src/context.dart';
 import 'package:userop/src/extensions/filter_options.dart';
 import 'package:userop/src/typechain/EntryPoint.g.dart';
 import 'package:userop/src/types.dart';
-import 'package:web3dart/crypto.dart';
-import 'package:web3dart/json_rpc.dart';
-import 'package:web3dart/web3dart.dart';
 
 import 'provider.dart';
 
@@ -16,7 +16,6 @@ import 'provider.dart';
 /// The class includes methods for both real and simulated (dry-run) operation sending.
 class Client implements IClient {
   final Web3Client web3client;
-  final RpcService jsonRpc;
 
   late BigInt chainId;
   late final EntryPoint entryPoint;
@@ -25,22 +24,22 @@ class Client implements IClient {
 
   /// Constructor for `Client`.
   ///
-  /// Initializes the `Web3Client`, `RpcService`, and other necessary properties.
+  /// Initializes the `Web3Client` and other necessary properties.
   /// Requires an RPC bundler url for connection.
   Client(
     String rpcUrl, {
     IClientOpts? opts,
   })  : web3client = Web3Client.custom(
-          JsonRPC(rpcUrl, http.Client()),
+          BundlerJsonRpcProvider(
+            rpcUrl,
+            http.Client(),
+          ).setBundlerRpc(
+            opts?.overrideBundlerRpc,
+          ),
+          socketConnector: opts?.socketConnector,
         ),
         waitTimeoutMs = 30000,
-        waitIntervalMs = 5000,
-        jsonRpc = BundlerJsonRpcProvider(
-          rpcUrl,
-          http.Client(),
-        ).setBundlerRpc(
-          opts?.overrideBundlerRpc,
-        ) {
+        waitIntervalMs = 5000 {
     entryPoint = EntryPoint(
       client: web3client,
       address: EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
@@ -86,11 +85,11 @@ class Client implements IClient {
                 .getUserOpHash(),
             include0x: true,
           )
-        : (await jsonRpc("eth_sendUserOperation", [
+        : (await web3client.makeRPCCall<String>("eth_sendUserOperation", [
             op.opToJson(),
             entryPoint.self.address.toString(),
-          ]))
-            .result as String;
+          ]));
+
     builder.resetOp();
 
     return ISendUserOperationResponse(
