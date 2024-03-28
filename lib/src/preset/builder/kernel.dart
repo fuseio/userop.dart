@@ -18,9 +18,6 @@ enum Operation {
 class Kernel extends UserOperationBuilder {
   final EthPrivateKey credentials;
 
-  /// The Bundler RPC service instance to interact with the network.
-  late final RpcService provider;
-
   /// The EntryPoint object to interact with the ERC4337 EntryPoint contract.
   late final EntryPoint entryPoint;
 
@@ -50,9 +47,6 @@ class Kernel extends UserOperationBuilder {
     ).setBundlerRpc(
       opts?.overrideBundlerRpc,
     ));
-    provider = BundlerJsonRpcProvider(rpcUrl, http.Client()).setBundlerRpc(
-      opts?.overrideBundlerRpc,
-    );
     entryPoint = EntryPoint(
       address: opts?.entryPoint ?? EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
       client: web3client,
@@ -75,19 +69,19 @@ class Kernel extends UserOperationBuilder {
 
   /// Resolves the nonce and init code for the SimpleAccount contract creation.
   Future<void> resolveAccount(ctx) async {
-    final nonce = entryPoint.getNonce(
-      EthereumAddress.fromHex(ctx.op.sender),
-      nonceKey,
-    );
-    final code = provider.call('eth_getCode', [
-      ctx.op.sender,
-      'latest',
+    final results = await Future.wait([
+      entryPoint.getNonce(
+        EthereumAddress.fromHex(ctx.op.sender),
+        nonceKey,
+      ),
+      entryPoint.client.makeRPCCall<String>('eth_getCode', [
+        ctx.op.sender,
+        'latest',
+      ]),
     ]);
-
-    final results = await Future.wait([nonce, code]);
     ctx.op.nonce = results[0];
-    final codeResponse = results[1] as RPCResponse;
-    ctx.op.initCode = codeResponse.result == "0x" ? initCode : "0x";
+    final code = results[1];
+    ctx.op.initCode = code == "0x" ? initCode : "0x";
   }
 
   Future<void> sudoMode(ctx) async {
@@ -132,7 +126,7 @@ class Kernel extends UserOperationBuilder {
         ]),
         include0x: true,
       );
-      await instance.provider.call('eth_call', [
+      await instance.entryPoint.client.makeRPCCall('eth_call', [
         {
           'to': instance.entryPoint.self.address.toString(),
           'data': ethCallData,
@@ -179,7 +173,6 @@ class Kernel extends UserOperationBuilder {
         .useMiddleware(instance.resolveAccount)
         .useMiddleware(getGasPrice(
           instance.eCDSAKernelFactory.client,
-          instance.provider,
         ));
 
     final withPM = opts?.paymasterMiddleware != null
@@ -188,7 +181,6 @@ class Kernel extends UserOperationBuilder {
         : baseInstance.useMiddleware(
             estimateUserOperationGas(
               instance.eCDSAKernelFactory.client,
-              instance.provider,
             ),
           );
 
