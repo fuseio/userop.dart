@@ -63,8 +63,10 @@ class SimpleAccount extends UserOperationBuilder {
   Future<void> resolveAccount(ctx) async {
     final results = await Future.wait([
       entryPoint.getNonce(
-        EthereumAddress.fromHex(ctx.op.sender),
-        nonceKey,
+        (
+          key: nonceKey,
+          sender: EthereumAddress.fromHex(ctx.op.sender),
+        ),
       ),
       entryPoint.client.makeRPCCall<String>('eth_getCode', [
         ctx.op.sender,
@@ -99,8 +101,10 @@ class SimpleAccount extends UserOperationBuilder {
     instance.initCode =
         '0x${inputArr.map((hexStr) => hexStr.toString().substring(2)).join('')}';
     final smartContractAddress = await instance.simpleAccountFactory.getAddress(
-      credentials.address,
-      opts?.salt ?? BigInt.zero,
+      (
+        owner: credentials.address,
+        salt: opts?.salt ?? BigInt.zero,
+      ),
     );
     instance.proxy = simple_account_impl.SimpleAccount(
       address: smartContractAddress,

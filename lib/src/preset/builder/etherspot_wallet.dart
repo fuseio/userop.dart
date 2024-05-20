@@ -59,8 +59,10 @@ class EtherspotWallet extends UserOperationBuilder {
   Future<void> resolveAccount(ctx) async {
     final results = await Future.wait([
       entryPoint.getNonce(
-        EthereumAddress.fromHex(ctx.op.sender),
-        nonceKey,
+        (
+          key: nonceKey,
+          sender: EthereumAddress.fromHex(ctx.op.sender),
+        ),
       ),
       entryPoint.client.makeRPCCall<String>('eth_getCode', [
         ctx.op.sender,
@@ -98,8 +100,10 @@ class EtherspotWallet extends UserOperationBuilder {
 
     final smartContractAddress =
         await instance.etherspotWalletFactory.getAddress(
-      credentials.address,
-      opts?.salt ?? BigInt.zero,
+      (
+        index: opts?.salt ?? BigInt.zero,
+        owner: credentials.address,
+      ),
     );
     instance.proxy = etherspot_wallet_impl.EtherspotWallet(
       address: smartContractAddress,
