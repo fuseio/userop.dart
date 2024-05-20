@@ -1,5 +1,8 @@
-// Generated code, do not modify. Run `build_runner build` to re-generate!
-// @dart=2.12
+// @dart=3.0
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
@@ -27,13 +30,13 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> disable(
-    _i2.Uint8List $param0, {
+    ({_i2.Uint8List $param0}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[0];
     assert(checkSignature(function, '8fc925aa'));
-    final params = [];
+    final params = [args.$param0];
     return write(
       credentials,
       transaction,
@@ -46,12 +49,12 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i1.EthereumAddress> ecdsaValidatorStorage(
-    _i1.EthereumAddress $param1, {
+    ({_i1.EthereumAddress $param1}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[1];
     assert(checkSignature(function, '20709efc'));
-    final params = [$param1];
+    final params = [args.$param1];
     final response = await read(
       function,
       params,
@@ -64,13 +67,13 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> enable(
-    _i2.Uint8List _data, {
+    ({_i2.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[2];
     assert(checkSignature(function, '0c959556'));
-    final params = [_data];
+    final params = [args.data];
     return write(
       credentials,
       transaction,
@@ -83,15 +86,14 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<BigInt> validateSignature(
-    _i2.Uint8List hash,
-    _i2.Uint8List signature, {
+    ({_i2.Uint8List hash, _i2.Uint8List signature}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[3];
     assert(checkSignature(function, '333daf92'));
     final params = [
-      hash,
-      signature,
+      args.hash,
+      args.signature,
     ];
     final response = await read(
       function,
@@ -105,17 +107,15 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<BigInt> validateUserOp(
-    dynamic _userOp,
-    _i2.Uint8List _userOpHash,
-    BigInt $param7, {
+    ({dynamic userOp, _i2.Uint8List userOpHash, BigInt $param7}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[4];
     assert(checkSignature(function, '3a871cdd'));
     final params = [
-      _userOp,
-      _userOpHash,
-      $param7,
+      args.userOp,
+      args.userOpHash,
+      args.$param7,
     ];
     final response = await read(
       function,

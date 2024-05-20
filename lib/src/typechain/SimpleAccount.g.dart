@@ -1,5 +1,8 @@
-// Generated code, do not modify. Run `build_runner build` to re-generate!
-// @dart=2.12
+// @dart=3.0
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
@@ -60,18 +63,16 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> execute(
-    _i1.EthereumAddress dest,
-    BigInt value,
-    _i2.Uint8List func, {
+    ({_i1.EthereumAddress dest, BigInt value, _i2.Uint8List func}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[3];
     assert(checkSignature(function, 'b61d27f6'));
     final params = [
-      dest,
-      value,
-      func,
+      args.dest,
+      args.value,
+      args.func,
     ];
     return write(
       credentials,
@@ -85,16 +86,15 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> executeBatch(
-    List<_i1.EthereumAddress> dest,
-    List<_i2.Uint8List> func, {
+    ({List<_i1.EthereumAddress> dest, List<_i2.Uint8List> func}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[4];
     assert(checkSignature(function, '18dfb3c7'));
     final params = [
-      dest,
-      func,
+      args.dest,
+      args.func,
     ];
     return write(
       credentials,
@@ -138,13 +138,13 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> initialize(
-    _i1.EthereumAddress anOwner, {
+    ({_i1.EthereumAddress anOwner}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[7];
     assert(checkSignature(function, 'c4d66de8'));
-    final params = [anOwner];
+    final params = [args.anOwner];
     return write(
       credentials,
       transaction,
@@ -157,21 +157,23 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC1155BatchReceived(
-    _i1.EthereumAddress $param6,
-    _i1.EthereumAddress $param7,
-    List<BigInt> $param8,
-    List<BigInt> $param9,
-    _i2.Uint8List $param10, {
+    ({
+      _i1.EthereumAddress $param6,
+      _i1.EthereumAddress $param7,
+      List<BigInt> $param8,
+      List<BigInt> $param9,
+      _i2.Uint8List $param10
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[8];
     assert(checkSignature(function, 'bc197c81'));
     final params = [
-      $param6,
-      $param7,
-      $param8,
-      $param9,
-      $param10,
+      args.$param6,
+      args.$param7,
+      args.$param8,
+      args.$param9,
+      args.$param10,
     ];
     final response = await read(
       function,
@@ -185,21 +187,23 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC1155Received(
-    _i1.EthereumAddress $param11,
-    _i1.EthereumAddress $param12,
-    BigInt $param13,
-    BigInt $param14,
-    _i2.Uint8List $param15, {
+    ({
+      _i1.EthereumAddress $param11,
+      _i1.EthereumAddress $param12,
+      BigInt $param13,
+      BigInt $param14,
+      _i2.Uint8List $param15
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[9];
     assert(checkSignature(function, 'f23a6e61'));
     final params = [
-      $param11,
-      $param12,
-      $param13,
-      $param14,
-      $param15,
+      args.$param11,
+      args.$param12,
+      args.$param13,
+      args.$param14,
+      args.$param15,
     ];
     final response = await read(
       function,
@@ -213,19 +217,21 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC721Received(
-    _i1.EthereumAddress $param16,
-    _i1.EthereumAddress $param17,
-    BigInt $param18,
-    _i2.Uint8List $param19, {
+    ({
+      _i1.EthereumAddress $param16,
+      _i1.EthereumAddress $param17,
+      BigInt $param18,
+      _i2.Uint8List $param19
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[10];
     assert(checkSignature(function, '150b7a02'));
     final params = [
-      $param16,
-      $param17,
-      $param18,
-      $param19,
+      args.$param16,
+      args.$param17,
+      args.$param18,
+      args.$param19,
     ];
     final response = await read(
       function,
@@ -269,12 +275,12 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<bool> supportsInterface(
-    _i2.Uint8List interfaceId, {
+    ({_i2.Uint8List interfaceId}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[13];
     assert(checkSignature(function, '01ffc9a7'));
-    final params = [interfaceId];
+    final params = [args.interfaceId];
     final response = await read(
       function,
       params,
@@ -287,23 +293,25 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<void> tokensReceived(
-    _i1.EthereumAddress $param21,
-    _i1.EthereumAddress $param22,
-    _i1.EthereumAddress $param23,
-    BigInt $param24,
-    _i2.Uint8List $param25,
-    _i2.Uint8List $param26, {
+    ({
+      _i1.EthereumAddress $param21,
+      _i1.EthereumAddress $param22,
+      _i1.EthereumAddress $param23,
+      BigInt $param24,
+      _i2.Uint8List $param25,
+      _i2.Uint8List $param26
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[14];
     assert(checkSignature(function, '0023de29'));
     final params = [
-      $param21,
-      $param22,
-      $param23,
-      $param24,
-      $param25,
-      $param26,
+      args.$param21,
+      args.$param22,
+      args.$param23,
+      args.$param24,
+      args.$param25,
+      args.$param26,
     ];
     final response = await read(
       function,
@@ -316,13 +324,13 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeTo(
-    _i1.EthereumAddress newImplementation, {
+    ({_i1.EthereumAddress newImplementation}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[15];
     assert(checkSignature(function, '3659cfe6'));
-    final params = [newImplementation];
+    final params = [args.newImplementation];
     return write(
       credentials,
       transaction,
@@ -335,16 +343,15 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeToAndCall(
-    _i1.EthereumAddress newImplementation,
-    _i2.Uint8List data, {
+    ({_i1.EthereumAddress newImplementation, _i2.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[16];
     assert(checkSignature(function, '4f1ef286'));
     final params = [
-      newImplementation,
-      data,
+      args.newImplementation,
+      args.data,
     ];
     return write(
       credentials,
@@ -358,18 +365,20 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> validateUserOp(
-    dynamic userOp,
-    _i2.Uint8List userOpHash,
-    BigInt missingAccountFunds, {
+    ({
+      dynamic userOp,
+      _i2.Uint8List userOpHash,
+      BigInt missingAccountFunds
+    }) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[17];
     assert(checkSignature(function, '3a871cdd'));
     final params = [
-      userOp,
-      userOpHash,
-      missingAccountFunds,
+      args.userOp,
+      args.userOpHash,
+      args.missingAccountFunds,
     ];
     return write(
       credentials,
@@ -383,16 +392,15 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> withdrawDepositTo(
-    _i1.EthereumAddress withdrawAddress,
-    BigInt amount, {
+    ({_i1.EthereumAddress withdrawAddress, BigInt amount}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[18];
     assert(checkSignature(function, '4d44560d'));
     final params = [
-      withdrawAddress,
-      amount,
+      args.withdrawAddress,
+      args.amount,
     ];
     return write(
       credentials,

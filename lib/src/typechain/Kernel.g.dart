@@ -1,5 +1,8 @@
-// Generated code, do not modify. Run `build_runner build` to re-generate!
-// @dart=2.12
+// @dart=3.0
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
@@ -27,13 +30,13 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> disableMode(
-    _i2.Uint8List _disableFlag, {
+    ({_i2.Uint8List disableFlag}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[2];
     assert(checkSignature(function, 'd5416221'));
-    final params = [_disableFlag];
+    final params = [args.disableFlag];
     return write(
       credentials,
       transaction,
@@ -61,20 +64,22 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> execute(
-    _i1.EthereumAddress to,
-    BigInt value,
-    _i2.Uint8List data,
-    BigInt operation, {
+    ({
+      _i1.EthereumAddress to,
+      BigInt value,
+      _i2.Uint8List data,
+      BigInt operation
+    }) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[4];
     assert(checkSignature(function, '51945447'));
     final params = [
-      to,
-      value,
-      data,
-      operation,
+      args.to,
+      args.value,
+      args.data,
+      args.operation,
     ];
     return write(
       credentials,
@@ -119,12 +124,12 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<dynamic> getExecution(
-    _i2.Uint8List _selector, {
+    ({_i2.Uint8List selector}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[7];
     assert(checkSignature(function, '51166ba0'));
-    final params = [_selector];
+    final params = [args.selector];
     final response = await read(
       function,
       params,
@@ -152,12 +157,12 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<BigInt> getNonce(
-    BigInt key, {
+    ({BigInt key}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[9];
     assert(checkSignature(function, '3e1b0812'));
-    final params = [key];
+    final params = [args.key];
     final response = await read(
       function,
       params,
@@ -185,16 +190,15 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> initialize(
-    _i1.EthereumAddress _defaultValidator,
-    _i2.Uint8List _data, {
+    ({_i1.EthereumAddress defaultValidator, _i2.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[11];
     assert(checkSignature(function, 'd1f57894'));
     final params = [
-      _defaultValidator,
-      _data,
+      args.defaultValidator,
+      args.data,
     ];
     return write(
       credentials,
@@ -208,15 +212,14 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> isValidSignature(
-    _i2.Uint8List hash,
-    _i2.Uint8List signature, {
+    ({_i2.Uint8List hash, _i2.Uint8List signature}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[12];
     assert(checkSignature(function, '1626ba7e'));
     final params = [
-      hash,
-      signature,
+      args.hash,
+      args.signature,
     ];
     final response = await read(
       function,
@@ -245,21 +248,23 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC1155BatchReceived(
-    _i1.EthereumAddress $param11,
-    _i1.EthereumAddress $param12,
-    List<BigInt> $param13,
-    List<BigInt> $param14,
-    _i2.Uint8List $param15, {
+    ({
+      _i1.EthereumAddress $param11,
+      _i1.EthereumAddress $param12,
+      List<BigInt> $param13,
+      List<BigInt> $param14,
+      _i2.Uint8List $param15
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[14];
     assert(checkSignature(function, 'bc197c81'));
     final params = [
-      $param11,
-      $param12,
-      $param13,
-      $param14,
-      $param15,
+      args.$param11,
+      args.$param12,
+      args.$param13,
+      args.$param14,
+      args.$param15,
     ];
     final response = await read(
       function,
@@ -273,21 +278,23 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC1155Received(
-    _i1.EthereumAddress $param16,
-    _i1.EthereumAddress $param17,
-    BigInt $param18,
-    BigInt $param19,
-    _i2.Uint8List $param20, {
+    ({
+      _i1.EthereumAddress $param16,
+      _i1.EthereumAddress $param17,
+      BigInt $param18,
+      BigInt $param19,
+      _i2.Uint8List $param20
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[15];
     assert(checkSignature(function, 'f23a6e61'));
     final params = [
-      $param16,
-      $param17,
-      $param18,
-      $param19,
-      $param20,
+      args.$param16,
+      args.$param17,
+      args.$param18,
+      args.$param19,
+      args.$param20,
     ];
     final response = await read(
       function,
@@ -301,19 +308,21 @@ class Kernel extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i2.Uint8List> onERC721Received(
-    _i1.EthereumAddress $param21,
-    _i1.EthereumAddress $param22,
-    BigInt $param23,
-    _i2.Uint8List $param24, {
+    ({
+      _i1.EthereumAddress $param21,
+      _i1.EthereumAddress $param22,
+      BigInt $param23,
+      _i2.Uint8List $param24
+    }) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[16];
     assert(checkSignature(function, '150b7a02'));
     final params = [
-      $param21,
-      $param22,
-      $param23,
-      $param24,
+      args.$param21,
+      args.$param22,
+      args.$param23,
+      args.$param24,
     ];
     final response = await read(
       function,
@@ -327,16 +336,15 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> setDefaultValidator(
-    _i1.EthereumAddress _defaultValidator,
-    _i2.Uint8List _data, {
+    ({_i1.EthereumAddress defaultValidator, _i2.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[17];
     assert(checkSignature(function, '55b14f50'));
     final params = [
-      _defaultValidator,
-      _data,
+      args.defaultValidator,
+      args.data,
     ];
     return write(
       credentials,
@@ -350,24 +358,26 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> setExecution(
-    _i2.Uint8List _selector,
-    _i1.EthereumAddress _executor,
-    _i1.EthereumAddress _validator,
-    BigInt _validUntil,
-    BigInt _validAfter,
-    _i2.Uint8List _enableData, {
+    ({
+      _i2.Uint8List selector,
+      _i1.EthereumAddress executor,
+      _i1.EthereumAddress validator,
+      BigInt validUntil,
+      BigInt validAfter,
+      _i2.Uint8List enableData
+    }) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[18];
     assert(checkSignature(function, '29f8b174'));
     final params = [
-      _selector,
-      _executor,
-      _validator,
-      _validUntil,
-      _validAfter,
-      _enableData,
+      args.selector,
+      args.executor,
+      args.validator,
+      args.validUntil,
+      args.validAfter,
+      args.enableData,
     ];
     return write(
       credentials,
@@ -381,13 +391,13 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeTo(
-    _i1.EthereumAddress _newImplementation, {
+    ({_i1.EthereumAddress newImplementation}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[19];
     assert(checkSignature(function, '3659cfe6'));
-    final params = [_newImplementation];
+    final params = [args.newImplementation];
     return write(
       credentials,
       transaction,
@@ -400,18 +410,20 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> validateUserOp(
-    dynamic userOp,
-    _i2.Uint8List userOpHash,
-    BigInt missingAccountFunds, {
+    ({
+      dynamic userOp,
+      _i2.Uint8List userOpHash,
+      BigInt missingAccountFunds
+    }) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[20];
     assert(checkSignature(function, '3a871cdd'));
     final params = [
-      userOp,
-      userOpHash,
-      missingAccountFunds,
+      args.userOp,
+      args.userOpHash,
+      args.missingAccountFunds,
     ];
     return write(
       credentials,

@@ -1,5 +1,8 @@
-// Generated code, do not modify. Run `build_runner build` to re-generate!
-// @dart=2.12
+// @dart=3.0
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
 import 'dart:typed_data' as _i2;
@@ -58,13 +61,13 @@ class EtherspotWalletFactory extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> changeOwner(
-    _i1.EthereumAddress _newOwner, {
+    ({_i1.EthereumAddress newOwner}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[3];
     assert(checkSignature(function, 'a6f9dae1'));
-    final params = [_newOwner];
+    final params = [args.newOwner];
     return write(
       credentials,
       transaction,
@@ -77,12 +80,12 @@ class EtherspotWalletFactory extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<bool> checkImplementation(
-    _i1.EthereumAddress _impl, {
+    ({_i1.EthereumAddress impl}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[4];
     assert(checkSignature(function, 'e6c0c597'));
-    final params = [_impl];
+    final params = [args.impl];
     final response = await read(
       function,
       params,
@@ -95,16 +98,15 @@ class EtherspotWalletFactory extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> createAccount(
-    _i1.EthereumAddress _owner,
-    BigInt _index, {
+    ({_i1.EthereumAddress owner, BigInt index}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[5];
     assert(checkSignature(function, '5fbfb9cf'));
     final params = [
-      _owner,
-      _index,
+      args.owner,
+      args.index,
     ];
     return write(
       credentials,
@@ -118,15 +120,14 @@ class EtherspotWalletFactory extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<_i1.EthereumAddress> getAddress(
-    _i1.EthereumAddress _owner,
-    BigInt _index, {
+    ({_i1.EthereumAddress owner, BigInt index}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[6];
     assert(checkSignature(function, '8cb84e18'));
     final params = [
-      _owner,
-      _index,
+      args.owner,
+      args.index,
     ];
     final response = await read(
       function,
@@ -155,13 +156,13 @@ class EtherspotWalletFactory extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> setImplementation(
-    _i1.EthereumAddress _newImpl, {
+    ({_i1.EthereumAddress newImpl}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
     final function = self.abi.functions[8];
     assert(checkSignature(function, 'd784d426'));
-    final params = [_newImpl];
+    final params = [args.newImpl];
     return write(
       credentials,
       transaction,
