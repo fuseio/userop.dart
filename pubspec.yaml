@@ -1,26 +1,26 @@
 name: userop
 description: A lightweight Dart library for quickly and easily building ERC-4337
   UserOperations.
-version: 0.2.1
+version: 0.3.0
 homepage: https://fuse.io/sdk
 repository: https://github.com/fuseio/userop.dart
 issue_tracker: https://github.com/fuseio/userop.dart/issues
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   eth_sig_util: ^0.0.9
   freezed_annotation: ^2.4.1
-  http: ^1.2.0
+  http: ^1.2.1
   json_annotation: ^4.9.0
   stream_channel: ^2.1.2
   web3dart: ^2.7.3
 
 dev_dependencies:
-  build_runner: ^2.4.9
-  freezed: ^2.5.2
+  build_runner: ^2.4.11
+  freezed: ^2.5.3
   json_serializable: ^6.8.0
   lints: ^4.0.0
-  test: ^1.25.5
+  test: ^1.25.7
   web3dart_builders: ^0.1.2
