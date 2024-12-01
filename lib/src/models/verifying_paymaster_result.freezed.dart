@@ -26,8 +26,12 @@ mixin _$VerifyingPaymasterResult {
   String get verificationGasLimit => throw _privateConstructorUsedError;
   String get callGasLimit => throw _privateConstructorUsedError;
 
+  /// Serializes this VerifyingPaymasterResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VerifyingPaymasterResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VerifyingPaymasterResultCopyWith<VerifyingPaymasterResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$VerifyingPaymasterResultCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VerifyingPaymasterResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -111,6 +117,8 @@ class __$$VerifyingPaymasterResultImplCopyWithImpl<$Res>
       $Res Function(_$VerifyingPaymasterResultImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VerifyingPaymasterResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,12 +189,14 @@ class _$VerifyingPaymasterResultImpl implements _VerifyingPaymasterResult {
                 other.callGasLimit == callGasLimit));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, paymasterAndData,
       preVerificationGas, verificationGasLimit, callGasLimit);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VerifyingPaymasterResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VerifyingPaymasterResultImplCopyWith<_$VerifyingPaymasterResultImpl>
@@ -219,8 +229,11 @@ abstract class _VerifyingPaymasterResult implements VerifyingPaymasterResult {
   String get verificationGasLimit;
   @override
   String get callGasLimit;
+
+  /// Create a copy of VerifyingPaymasterResult
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VerifyingPaymasterResultImplCopyWith<_$VerifyingPaymasterResultImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

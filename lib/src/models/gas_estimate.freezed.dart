@@ -27,8 +27,12 @@ mixin _$GasEstimate {
   /// TODO: remove this with EntryPoint v0.7
   String get verificationGas => throw _privateConstructorUsedError;
 
+  /// Serializes this GasEstimate to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GasEstimate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GasEstimateCopyWith<GasEstimate> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$GasEstimateCopyWithImpl<$Res, $Val extends GasEstimate>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GasEstimate
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -108,6 +114,8 @@ class __$$GasEstimateImplCopyWithImpl<$Res>
       _$GasEstimateImpl _value, $Res Function(_$GasEstimateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GasEstimate
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -180,12 +188,14 @@ class _$GasEstimateImpl implements _GasEstimate {
                 other.verificationGas == verificationGas));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, verificationGasLimit,
       preVerificationGas, callGasLimit, verificationGas);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GasEstimate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GasEstimateImplCopyWith<_$GasEstimateImpl> get copyWith =>
@@ -215,12 +225,15 @@ abstract class _GasEstimate implements GasEstimate {
   String get preVerificationGas;
   @override
   String get callGasLimit;
-  @override
 
   /// TODO: remove this with EntryPoint v0.7
-  String get verificationGas;
   @override
-  @JsonKey(ignore: true)
+  String get verificationGas;
+
+  /// Create a copy of GasEstimate
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GasEstimateImplCopyWith<_$GasEstimateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
