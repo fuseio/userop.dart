@@ -1,4 +1,6 @@
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
+import 'package:userop/src/constants/urls.dart';
+import 'package:userop/src/fallback_http_client.dart';
 import 'package:wallet/wallet.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -15,7 +17,8 @@ import 'provider.dart';
 /// The `Client` class provides methods for building and sending user operations to the ERC-4337 bundler.
 /// The class includes methods for both real and simulated (dry-run) operation sending.
 class Client implements IClient {
-  final Web3Client web3client;
+  late final Web3Client web3client;
+  late final FallbackHttpClient rpcHttpClient;
 
   late BigInt chainId;
   late final EntryPoint entryPoint;
@@ -29,17 +32,21 @@ class Client implements IClient {
   Client(
     String rpcUrl, {
     IClientOpts? opts,
-  })  : web3client = Web3Client.custom(
-          BundlerJsonRpcProvider(
-            rpcUrl,
-            http.Client(),
-          ).setBundlerRpc(
-            opts?.overrideBundlerRpc,
-          ),
-          socketConnector: opts?.socketConnector,
-        ),
-        waitTimeoutMs = 30000,
+    String? fallbackRpcUrl,
+    String? accessToken,
+  })  : waitTimeoutMs = 30000,
         waitIntervalMs = 5000 {
+    rpcHttpClient = FallbackHttpClient(fallbackRpcUrl);
+    rpcHttpClient.withAccessToken(accessToken);
+    web3client = Web3Client.custom(
+      BundlerJsonRpcProvider(
+        rpcUrl,
+        rpcHttpClient,
+      ).setBundlerRpc(
+        opts?.overrideBundlerRpc,
+      ),
+      socketConnector: opts?.socketConnector,
+    );
     entryPoint = EntryPoint(
       client: web3client,
       address: EthereumAddress.fromHex(ERC4337.ENTRY_POINT),
@@ -49,8 +56,18 @@ class Client implements IClient {
   /// Static initializer for `Client`.
   ///
   /// Fetches the `chainId` and returns a `Client` instance.
-  static Future<IClient> init(String rpcUrl, {IClientOpts? opts}) async {
-    final instance = Client(rpcUrl, opts: opts);
+  static Future<IClient> init(
+    String rpcUrl, {
+    IClientOpts? opts,
+    String? fallbackRpcUrl = Urls.FALLBACK_RPC_URL,
+    String? accessToken,
+  }) async {
+    final instance = Client(
+      rpcUrl,
+      opts: opts,
+      fallbackRpcUrl: fallbackRpcUrl,
+      accessToken: accessToken,
+    );
     instance.chainId = await instance.web3client.getChainId();
 
     return instance;

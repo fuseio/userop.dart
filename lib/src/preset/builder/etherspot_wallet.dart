@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
+import 'package:userop/src/fallback_http_client.dart';
 import 'package:wallet/wallet.dart';
 
 import '../../../userop.dart';
@@ -31,10 +32,14 @@ class EtherspotWallet extends UserOperationBuilder {
     this.credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
+    String? fallbackRpcUrl,
+    String? accessToken,
   }) : super() {
+    final rpcHttpClient = FallbackHttpClient(fallbackRpcUrl);
+    rpcHttpClient.withAccessToken(accessToken);
     final web3client = Web3Client.custom(BundlerJsonRpcProvider(
       rpcUrl,
-      http.Client(),
+      rpcHttpClient,
     ).setBundlerRpc(
       opts?.overrideBundlerRpc,
     ));
@@ -79,8 +84,16 @@ class EtherspotWallet extends UserOperationBuilder {
     EthPrivateKey credentials,
     String rpcUrl, {
     IPresetBuilderOpts? opts,
+    String? fallbackRpcUrl = Urls.FALLBACK_RPC_URL,
+    String? accessToken,
   }) async {
-    final instance = EtherspotWallet(credentials, rpcUrl, opts: opts);
+    final instance = EtherspotWallet(
+      credentials,
+      rpcUrl,
+      opts: opts,
+      fallbackRpcUrl: fallbackRpcUrl,
+      accessToken: accessToken,
+    );
     final List<String> inputArr = [
       instance.etherspotWalletFactory.self.address.toString(),
       bytesToHex(
