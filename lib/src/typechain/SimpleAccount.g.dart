@@ -5,7 +5,8 @@
 // ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
-import 'dart:typed_data' as _i2;
+import 'package:wallet/wallet.dart' as _i2;
+import 'dart:typed_data' as _i3;
 
 final _contractAbi = _i1.ContractAbi.fromJson(
   '[{"inputs":[{"internalType":"contract IEntryPoint","name":"anEntryPoint","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"contract IEntryPoint","name":"entryPoint","type":"address"},{"indexed":true,"internalType":"address","name":"owner","type":"address"}],"name":"SimpleAccountInitialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"inputs":[],"name":"addDeposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"entryPoint","outputs":[{"internalType":"contract IEntryPoint","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"dest","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"bytes","name":"func","type":"bytes"}],"name":"execute","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address[]","name":"dest","type":"address[]"},{"internalType":"bytes[]","name":"func","type":"bytes[]"}],"name":"executeBatch","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getDeposit","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNonce","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"anOwner","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC1155BatchReceived","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC1155Received","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC721Received","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proxiableUUID","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"bytes","name":"","type":"bytes"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"tokensReceived","outputs":[],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"bytes","name":"initCode","type":"bytes"},{"internalType":"bytes","name":"callData","type":"bytes"},{"internalType":"uint256","name":"callGasLimit","type":"uint256"},{"internalType":"uint256","name":"verificationGasLimit","type":"uint256"},{"internalType":"uint256","name":"preVerificationGas","type":"uint256"},{"internalType":"uint256","name":"maxFeePerGas","type":"uint256"},{"internalType":"uint256","name":"maxPriorityFeePerGas","type":"uint256"},{"internalType":"bytes","name":"paymasterAndData","type":"bytes"},{"internalType":"bytes","name":"signature","type":"bytes"}],"internalType":"struct UserOperation","name":"userOp","type":"tuple"},{"internalType":"bytes32","name":"userOpHash","type":"bytes32"},{"internalType":"uint256","name":"missingAccountFunds","type":"uint256"}],"name":"validateUserOp","outputs":[{"internalType":"uint256","name":"validationData","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"withdrawAddress","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawDepositTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}]',
@@ -14,7 +15,7 @@ final _contractAbi = _i1.ContractAbi.fromJson(
 
 class SimpleAccount extends _i1.GeneratedContract {
   SimpleAccount({
-    required _i1.EthereumAddress address,
+    required _i2.EthereumAddress address,
     required _i1.Web3Client client,
     int? chainId,
   }) : super(
@@ -47,7 +48,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> entryPoint({_i1.BlockNum? atBlock}) async {
+  Future<_i2.EthereumAddress> entryPoint({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[2];
     assert(checkSignature(function, 'b0d691fe'));
     final params = [];
@@ -56,14 +57,14 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [transaction] parameter can be used to override parameters
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> execute(
-    ({_i1.EthereumAddress dest, BigInt value, _i2.Uint8List func}) args, {
+    ({_i2.EthereumAddress dest, BigInt value, _i3.Uint8List func}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -86,7 +87,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> executeBatch(
-    ({List<_i1.EthereumAddress> dest, List<_i2.Uint8List> func}) args, {
+    ({List<_i2.EthereumAddress> dest, List<_i3.Uint8List> func}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -138,7 +139,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> initialize(
-    ({_i1.EthereumAddress anOwner}) args, {
+    ({_i2.EthereumAddress anOwner}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -156,13 +157,13 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC1155BatchReceived(
+  Future<_i3.Uint8List> onERC1155BatchReceived(
     ({
-      _i1.EthereumAddress $param6,
-      _i1.EthereumAddress $param7,
+      _i2.EthereumAddress $param6,
+      _i2.EthereumAddress $param7,
       List<BigInt> $param8,
       List<BigInt> $param9,
-      _i2.Uint8List $param10
+      _i3.Uint8List $param10
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -180,19 +181,19 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC1155Received(
+  Future<_i3.Uint8List> onERC1155Received(
     ({
-      _i1.EthereumAddress $param11,
-      _i1.EthereumAddress $param12,
+      _i2.EthereumAddress $param11,
+      _i2.EthereumAddress $param12,
       BigInt $param13,
       BigInt $param14,
-      _i2.Uint8List $param15
+      _i3.Uint8List $param15
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -210,18 +211,18 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC721Received(
+  Future<_i3.Uint8List> onERC721Received(
     ({
-      _i1.EthereumAddress $param16,
-      _i1.EthereumAddress $param17,
+      _i2.EthereumAddress $param16,
+      _i2.EthereumAddress $param17,
       BigInt $param18,
-      _i2.Uint8List $param19
+      _i3.Uint8List $param19
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -238,13 +239,13 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> owner({_i1.BlockNum? atBlock}) async {
+  Future<_i2.EthereumAddress> owner({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[11];
     assert(checkSignature(function, '8da5cb5b'));
     final params = [];
@@ -253,13 +254,13 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> proxiableUUID({_i1.BlockNum? atBlock}) async {
+  Future<_i3.Uint8List> proxiableUUID({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[12];
     assert(checkSignature(function, '52d1902d'));
     final params = [];
@@ -268,14 +269,14 @@ class SimpleAccount extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<bool> supportsInterface(
-    ({_i2.Uint8List interfaceId}) args, {
+    ({_i3.Uint8List interfaceId}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[13];
@@ -294,12 +295,12 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// latest on-chain block will be used.
   Future<void> tokensReceived(
     ({
-      _i1.EthereumAddress $param21,
-      _i1.EthereumAddress $param22,
-      _i1.EthereumAddress $param23,
+      _i2.EthereumAddress $param21,
+      _i2.EthereumAddress $param22,
+      _i2.EthereumAddress $param23,
       BigInt $param24,
-      _i2.Uint8List $param25,
-      _i2.Uint8List $param26
+      _i3.Uint8List $param25,
+      _i3.Uint8List $param26
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -324,7 +325,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeTo(
-    ({_i1.EthereumAddress newImplementation}) args, {
+    ({_i2.EthereumAddress newImplementation}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -343,7 +344,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeToAndCall(
-    ({_i1.EthereumAddress newImplementation, _i2.Uint8List data}) args, {
+    ({_i2.EthereumAddress newImplementation, _i3.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -367,7 +368,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   Future<String> validateUserOp(
     ({
       dynamic userOp,
-      _i2.Uint8List userOpHash,
+      _i3.Uint8List userOpHash,
       BigInt missingAccountFunds
     }) args, {
     required _i1.Credentials credentials,
@@ -392,7 +393,7 @@ class SimpleAccount extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> withdrawDepositTo(
-    ({_i1.EthereumAddress withdrawAddress, BigInt amount}) args, {
+    ({_i2.EthereumAddress withdrawAddress, BigInt amount}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -535,12 +536,12 @@ class AdminChanged {
   AdminChanged(
     List<dynamic> response,
     this.event,
-  )   : previousAdmin = (response[0] as _i1.EthereumAddress),
-        newAdmin = (response[1] as _i1.EthereumAddress);
+  )   : previousAdmin = (response[0] as _i2.EthereumAddress),
+        newAdmin = (response[1] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress previousAdmin;
+  final _i2.EthereumAddress previousAdmin;
 
-  final _i1.EthereumAddress newAdmin;
+  final _i2.EthereumAddress newAdmin;
 
   final _i1.FilterEvent event;
 }
@@ -549,9 +550,9 @@ class BeaconUpgraded {
   BeaconUpgraded(
     List<dynamic> response,
     this.event,
-  ) : beacon = (response[0] as _i1.EthereumAddress);
+  ) : beacon = (response[0] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress beacon;
+  final _i2.EthereumAddress beacon;
 
   final _i1.FilterEvent event;
 }
@@ -571,12 +572,12 @@ class SimpleAccountInitialized {
   SimpleAccountInitialized(
     List<dynamic> response,
     this.event,
-  )   : entryPoint = (response[0] as _i1.EthereumAddress),
-        owner = (response[1] as _i1.EthereumAddress);
+  )   : entryPoint = (response[0] as _i2.EthereumAddress),
+        owner = (response[1] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress entryPoint;
+  final _i2.EthereumAddress entryPoint;
 
-  final _i1.EthereumAddress owner;
+  final _i2.EthereumAddress owner;
 
   final _i1.FilterEvent event;
 }
@@ -585,9 +586,9 @@ class Upgraded {
   Upgraded(
     List<dynamic> response,
     this.event,
-  ) : implementation = (response[0] as _i1.EthereumAddress);
+  ) : implementation = (response[0] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress implementation;
+  final _i2.EthereumAddress implementation;
 
   final _i1.FilterEvent event;
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
+import 'package:wallet/wallet.dart' as _i2;
 
 final _contractAbi = _i1.ContractAbi.fromJson(
   '[{"inputs":[{"internalType":"contract IEntryPoint","name":"_entryPoint","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"accountImplementation","outputs":[{"internalType":"contract SimpleAccount","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"salt","type":"uint256"}],"name":"createAccount","outputs":[{"internalType":"contract SimpleAccount","name":"ret","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"salt","type":"uint256"}],"name":"getAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}]',
@@ -13,7 +14,7 @@ final _contractAbi = _i1.ContractAbi.fromJson(
 
 class SimpleAccountFactory extends _i1.GeneratedContract {
   SimpleAccountFactory({
-    required _i1.EthereumAddress address,
+    required _i2.EthereumAddress address,
     required _i1.Web3Client client,
     int? chainId,
   }) : super(
@@ -28,7 +29,7 @@ class SimpleAccountFactory extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> accountImplementation(
+  Future<_i2.EthereumAddress> accountImplementation(
       {_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[1];
     assert(checkSignature(function, '11464fbe'));
@@ -38,14 +39,14 @@ class SimpleAccountFactory extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [transaction] parameter can be used to override parameters
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> createAccount(
-    ({_i1.EthereumAddress owner, BigInt salt}) args, {
+    ({_i2.EthereumAddress owner, BigInt salt}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -66,8 +67,8 @@ class SimpleAccountFactory extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> getAddress(
-    ({_i1.EthereumAddress owner, BigInt salt}) args, {
+  Future<_i2.EthereumAddress> getAddress(
+    ({_i2.EthereumAddress owner, BigInt salt}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[3];
@@ -81,6 +82,6 @@ class SimpleAccountFactory extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 }

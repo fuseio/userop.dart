@@ -5,7 +5,8 @@
 // ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
-import 'dart:typed_data' as _i2;
+import 'package:wallet/wallet.dart' as _i2;
+import 'dart:typed_data' as _i3;
 
 final _contractAbi = _i1.ContractAbi.fromJson(
   '[{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"kernel","type":"address"},{"indexed":true,"internalType":"address","name":"oldOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnerChanged","type":"event"},{"inputs":[{"internalType":"bytes","name":"","type":"bytes"}],"name":"disable","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"ecdsaValidatorStorage","outputs":[{"internalType":"address","name":"owner","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"enable","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"hash","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"validateSignature","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"bytes","name":"initCode","type":"bytes"},{"internalType":"bytes","name":"callData","type":"bytes"},{"internalType":"uint256","name":"callGasLimit","type":"uint256"},{"internalType":"uint256","name":"verificationGasLimit","type":"uint256"},{"internalType":"uint256","name":"preVerificationGas","type":"uint256"},{"internalType":"uint256","name":"maxFeePerGas","type":"uint256"},{"internalType":"uint256","name":"maxPriorityFeePerGas","type":"uint256"},{"internalType":"bytes","name":"paymasterAndData","type":"bytes"},{"internalType":"bytes","name":"signature","type":"bytes"}],"internalType":"struct UserOperation","name":"_userOp","type":"tuple"},{"internalType":"bytes32","name":"_userOpHash","type":"bytes32"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"validateUserOp","outputs":[{"internalType":"uint256","name":"validationData","type":"uint256"}],"stateMutability":"view","type":"function"}]',
@@ -14,7 +15,7 @@ final _contractAbi = _i1.ContractAbi.fromJson(
 
 class ECDSAValidator extends _i1.GeneratedContract {
   ECDSAValidator({
-    required _i1.EthereumAddress address,
+    required _i2.EthereumAddress address,
     required _i1.Web3Client client,
     int? chainId,
   }) : super(
@@ -30,7 +31,7 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> disable(
-    ({_i2.Uint8List $param0}) args, {
+    ({_i3.Uint8List $param0}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -48,8 +49,8 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> ecdsaValidatorStorage(
-    ({_i1.EthereumAddress $param1}) args, {
+  Future<_i2.EthereumAddress> ecdsaValidatorStorage(
+    ({_i2.EthereumAddress $param1}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[1];
@@ -60,14 +61,14 @@ class ECDSAValidator extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [transaction] parameter can be used to override parameters
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> enable(
-    ({_i2.Uint8List data}) args, {
+    ({_i3.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -86,7 +87,7 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<BigInt> validateSignature(
-    ({_i2.Uint8List hash, _i2.Uint8List signature}) args, {
+    ({_i3.Uint8List hash, _i3.Uint8List signature}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[3];
@@ -107,7 +108,7 @@ class ECDSAValidator extends _i1.GeneratedContract {
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<BigInt> validateUserOp(
-    ({dynamic userOp, _i2.Uint8List userOpHash, BigInt $param7}) args, {
+    ({dynamic userOp, _i3.Uint8List userOpHash, BigInt $param7}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[4];
@@ -154,15 +155,15 @@ class OwnerChanged {
   OwnerChanged(
     List<dynamic> response,
     this.event,
-  )   : kernel = (response[0] as _i1.EthereumAddress),
-        oldOwner = (response[1] as _i1.EthereumAddress),
-        newOwner = (response[2] as _i1.EthereumAddress);
+  )   : kernel = (response[0] as _i2.EthereumAddress),
+        oldOwner = (response[1] as _i2.EthereumAddress),
+        newOwner = (response[2] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress kernel;
+  final _i2.EthereumAddress kernel;
 
-  final _i1.EthereumAddress oldOwner;
+  final _i2.EthereumAddress oldOwner;
 
-  final _i1.EthereumAddress newOwner;
+  final _i2.EthereumAddress newOwner;
 
   final _i1.FilterEvent event;
 }

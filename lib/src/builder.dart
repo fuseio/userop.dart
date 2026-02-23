@@ -1,4 +1,4 @@
-import 'package:web3dart/web3dart.dart';
+import 'package:wallet/wallet.dart';
 
 import './types.dart';
 

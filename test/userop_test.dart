@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 
 void main() {
   final mockValue = EthereumAddress.fromHex(Addresses.AddressZero);

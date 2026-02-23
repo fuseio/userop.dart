@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
-import 'package:web3dart/crypto.dart';
+import 'package:wallet/wallet.dart';
 
 import '../../../userop.dart';
 import '../../typechain/SimpleAccount.g.dart' as simple_account_impl;

@@ -5,7 +5,8 @@
 // ignore_for_file: unused_local_variable, unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:web3dart/web3dart.dart' as _i1;
-import 'dart:typed_data' as _i2;
+import 'package:wallet/wallet.dart' as _i2;
+import 'dart:typed_data' as _i3;
 
 final _contractAbi = _i1.ContractAbi.fromJson(
   '[{"inputs":[{"internalType":"contract IEntryPoint","name":"_entryPoint","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"oldValidator","type":"address"},{"indexed":true,"internalType":"address","name":"newValidator","type":"address"}],"name":"DefaultValidatorChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes4","name":"selector","type":"bytes4"},{"indexed":true,"internalType":"address","name":"executor","type":"address"},{"indexed":true,"internalType":"address","name":"validator","type":"address"}],"name":"ExecutionChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"newImplementation","type":"address"}],"name":"Upgraded","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"bytes4","name":"_disableFlag","type":"bytes4"}],"name":"disableMode","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"entryPoint","outputs":[{"internalType":"contract IEntryPoint","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"},{"internalType":"enum Operation","name":"operation","type":"uint8"}],"name":"execute","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getDefaultValidator","outputs":[{"internalType":"contract IKernelValidator","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getDisabledMode","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes4","name":"_selector","type":"bytes4"}],"name":"getExecution","outputs":[{"components":[{"internalType":"uint48","name":"validUntil","type":"uint48"},{"internalType":"uint48","name":"validAfter","type":"uint48"},{"internalType":"address","name":"executor","type":"address"},{"internalType":"contract IKernelValidator","name":"validator","type":"address"}],"internalType":"struct ExecutionDetail","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLastDisabledTime","outputs":[{"internalType":"uint48","name":"","type":"uint48"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint192","name":"key","type":"uint192"}],"name":"getNonce","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNonce","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"contract IKernelValidator","name":"_defaultValidator","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"hash","type":"bytes32"},{"internalType":"bytes","name":"signature","type":"bytes"}],"name":"isValidSignature","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC1155BatchReceived","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC1155Received","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"bytes","name":"","type":"bytes"}],"name":"onERC721Received","outputs":[{"internalType":"bytes4","name":"","type":"bytes4"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"contract IKernelValidator","name":"_defaultValidator","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"setDefaultValidator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"_selector","type":"bytes4"},{"internalType":"address","name":"_executor","type":"address"},{"internalType":"contract IKernelValidator","name":"_validator","type":"address"},{"internalType":"uint48","name":"_validUntil","type":"uint48"},{"internalType":"uint48","name":"_validAfter","type":"uint48"},{"internalType":"bytes","name":"_enableData","type":"bytes"}],"name":"setExecution","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"bytes","name":"initCode","type":"bytes"},{"internalType":"bytes","name":"callData","type":"bytes"},{"internalType":"uint256","name":"callGasLimit","type":"uint256"},{"internalType":"uint256","name":"verificationGasLimit","type":"uint256"},{"internalType":"uint256","name":"preVerificationGas","type":"uint256"},{"internalType":"uint256","name":"maxFeePerGas","type":"uint256"},{"internalType":"uint256","name":"maxPriorityFeePerGas","type":"uint256"},{"internalType":"bytes","name":"paymasterAndData","type":"bytes"},{"internalType":"bytes","name":"signature","type":"bytes"}],"internalType":"struct UserOperation","name":"userOp","type":"tuple"},{"internalType":"bytes32","name":"userOpHash","type":"bytes32"},{"internalType":"uint256","name":"missingAccountFunds","type":"uint256"}],"name":"validateUserOp","outputs":[{"internalType":"uint256","name":"validationData","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]',
@@ -14,7 +15,7 @@ final _contractAbi = _i1.ContractAbi.fromJson(
 
 class Kernel extends _i1.GeneratedContract {
   Kernel({
-    required _i1.EthereumAddress address,
+    required _i2.EthereumAddress address,
     required _i1.Web3Client client,
     int? chainId,
   }) : super(
@@ -30,7 +31,7 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> disableMode(
-    ({_i2.Uint8List disableFlag}) args, {
+    ({_i3.Uint8List disableFlag}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -48,7 +49,7 @@ class Kernel extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> entryPoint({_i1.BlockNum? atBlock}) async {
+  Future<_i2.EthereumAddress> entryPoint({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[3];
     assert(checkSignature(function, 'b0d691fe'));
     final params = [];
@@ -57,7 +58,7 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [transaction] parameter can be used to override parameters
@@ -65,9 +66,9 @@ class Kernel extends _i1.GeneratedContract {
   /// set by the contract.
   Future<String> execute(
     ({
-      _i1.EthereumAddress to,
+      _i2.EthereumAddress to,
       BigInt value,
-      _i2.Uint8List data,
+      _i3.Uint8List data,
       BigInt operation
     }) args, {
     required _i1.Credentials credentials,
@@ -92,7 +93,7 @@ class Kernel extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i1.EthereumAddress> getDefaultValidator(
+  Future<_i2.EthereumAddress> getDefaultValidator(
       {_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[5];
     assert(checkSignature(function, '0b3dc354'));
@@ -102,13 +103,13 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i1.EthereumAddress);
+    return (response[0] as _i2.EthereumAddress);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> getDisabledMode({_i1.BlockNum? atBlock}) async {
+  Future<_i3.Uint8List> getDisabledMode({_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[6];
     assert(checkSignature(function, '57b75047'));
     final params = [];
@@ -117,14 +118,14 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
   Future<dynamic> getExecution(
-    ({_i2.Uint8List selector}) args, {
+    ({_i3.Uint8List selector}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[7];
@@ -190,7 +191,7 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> initialize(
-    ({_i1.EthereumAddress defaultValidator, _i2.Uint8List data}) args, {
+    ({_i2.EthereumAddress defaultValidator, _i3.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -211,8 +212,8 @@ class Kernel extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> isValidSignature(
-    ({_i2.Uint8List hash, _i2.Uint8List signature}) args, {
+  Future<_i3.Uint8List> isValidSignature(
+    ({_i3.Uint8List hash, _i3.Uint8List signature}) args, {
     _i1.BlockNum? atBlock,
   }) async {
     final function = self.abi.functions[12];
@@ -226,7 +227,7 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
@@ -247,13 +248,13 @@ class Kernel extends _i1.GeneratedContract {
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC1155BatchReceived(
+  Future<_i3.Uint8List> onERC1155BatchReceived(
     ({
-      _i1.EthereumAddress $param11,
-      _i1.EthereumAddress $param12,
+      _i2.EthereumAddress $param11,
+      _i2.EthereumAddress $param12,
       List<BigInt> $param13,
       List<BigInt> $param14,
-      _i2.Uint8List $param15
+      _i3.Uint8List $param15
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -271,19 +272,19 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC1155Received(
+  Future<_i3.Uint8List> onERC1155Received(
     ({
-      _i1.EthereumAddress $param16,
-      _i1.EthereumAddress $param17,
+      _i2.EthereumAddress $param16,
+      _i2.EthereumAddress $param17,
       BigInt $param18,
       BigInt $param19,
-      _i2.Uint8List $param20
+      _i3.Uint8List $param20
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -301,18 +302,18 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [atBlock] parameter can be used to view historical data. When
   /// set, the function will be evaluated in the specified block. By default, the
   /// latest on-chain block will be used.
-  Future<_i2.Uint8List> onERC721Received(
+  Future<_i3.Uint8List> onERC721Received(
     ({
-      _i1.EthereumAddress $param21,
-      _i1.EthereumAddress $param22,
+      _i2.EthereumAddress $param21,
+      _i2.EthereumAddress $param22,
       BigInt $param23,
-      _i2.Uint8List $param24
+      _i3.Uint8List $param24
     }) args, {
     _i1.BlockNum? atBlock,
   }) async {
@@ -329,14 +330,14 @@ class Kernel extends _i1.GeneratedContract {
       params,
       atBlock,
     );
-    return (response[0] as _i2.Uint8List);
+    return (response[0] as _i3.Uint8List);
   }
 
   /// The optional [transaction] parameter can be used to override parameters
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> setDefaultValidator(
-    ({_i1.EthereumAddress defaultValidator, _i2.Uint8List data}) args, {
+    ({_i2.EthereumAddress defaultValidator, _i3.Uint8List data}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -359,12 +360,12 @@ class Kernel extends _i1.GeneratedContract {
   /// set by the contract.
   Future<String> setExecution(
     ({
-      _i2.Uint8List selector,
-      _i1.EthereumAddress executor,
-      _i1.EthereumAddress validator,
+      _i3.Uint8List selector,
+      _i2.EthereumAddress executor,
+      _i2.EthereumAddress validator,
       BigInt validUntil,
       BigInt validAfter,
-      _i2.Uint8List enableData
+      _i3.Uint8List enableData
     }) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
@@ -391,7 +392,7 @@ class Kernel extends _i1.GeneratedContract {
   /// like the gas price, nonce and max gas. The `data` and `to` fields will be
   /// set by the contract.
   Future<String> upgradeTo(
-    ({_i1.EthereumAddress newImplementation}) args, {
+    ({_i2.EthereumAddress newImplementation}) args, {
     required _i1.Credentials credentials,
     _i1.Transaction? transaction,
   }) async {
@@ -412,7 +413,7 @@ class Kernel extends _i1.GeneratedContract {
   Future<String> validateUserOp(
     ({
       dynamic userOp,
-      _i2.Uint8List userOpHash,
+      _i3.Uint8List userOpHash,
       BigInt missingAccountFunds
     }) args, {
     required _i1.Credentials credentials,
@@ -525,12 +526,12 @@ class DefaultValidatorChanged {
   DefaultValidatorChanged(
     List<dynamic> response,
     this.event,
-  )   : oldValidator = (response[0] as _i1.EthereumAddress),
-        newValidator = (response[1] as _i1.EthereumAddress);
+  )   : oldValidator = (response[0] as _i2.EthereumAddress),
+        newValidator = (response[1] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress oldValidator;
+  final _i2.EthereumAddress oldValidator;
 
-  final _i1.EthereumAddress newValidator;
+  final _i2.EthereumAddress newValidator;
 
   final _i1.FilterEvent event;
 }
@@ -539,15 +540,15 @@ class ExecutionChanged {
   ExecutionChanged(
     List<dynamic> response,
     this.event,
-  )   : selector = (response[0] as _i2.Uint8List),
-        executor = (response[1] as _i1.EthereumAddress),
-        validator = (response[2] as _i1.EthereumAddress);
+  )   : selector = (response[0] as _i3.Uint8List),
+        executor = (response[1] as _i2.EthereumAddress),
+        validator = (response[2] as _i2.EthereumAddress);
 
-  final _i2.Uint8List selector;
+  final _i3.Uint8List selector;
 
-  final _i1.EthereumAddress executor;
+  final _i2.EthereumAddress executor;
 
-  final _i1.EthereumAddress validator;
+  final _i2.EthereumAddress validator;
 
   final _i1.FilterEvent event;
 }
@@ -556,9 +557,9 @@ class Upgraded {
   Upgraded(
     List<dynamic> response,
     this.event,
-  ) : newImplementation = (response[0] as _i1.EthereumAddress);
+  ) : newImplementation = (response[0] as _i2.EthereumAddress);
 
-  final _i1.EthereumAddress newImplementation;
+  final _i2.EthereumAddress newImplementation;
 
   final _i1.FilterEvent event;
 }

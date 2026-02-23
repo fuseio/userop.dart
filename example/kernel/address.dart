@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 
 /// Run this example with: dart example/address.dart
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 
 /// Run this example with: dart example/transfer.dart TARGET_ADDRESS VALUE_IN_WEI
 

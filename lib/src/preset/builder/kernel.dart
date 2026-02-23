@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:eth_sig_util/util/abi.dart';
-import 'package:web3dart/crypto.dart';
+import 'package:wallet/wallet.dart';
 import 'package:web3dart/json_rpc.dart';
 import 'package:http/http.dart' as http;
 
@@ -227,7 +227,7 @@ class Kernel extends UserOperationBuilder {
               ],
               [
                 0,
-                e.to.addressBytes,
+                e.to.value,
                 e.value,
                 e.data.length,
                 e.data,

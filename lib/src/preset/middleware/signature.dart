@@ -1,6 +1,5 @@
 import 'package:userop/src/types.dart';
-import 'package:web3dart/credentials.dart';
-import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
 
 @Deprecated('eOASignature is deprecated. Replace with signUserOpHash.')
 UserOperationMiddlewareFn eOASignature(EthPrivateKey credentials) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 
 Future<void> main(List<String> arguments) async {
   final tokenAddress = arguments[0];

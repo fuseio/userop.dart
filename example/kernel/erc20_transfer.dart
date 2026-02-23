@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 // import 'package:web3dart/crypto.dart';
 
 Future<void> main(List<String> arguments) async {

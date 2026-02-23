@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:stream_channel/stream_channel.dart';
 import 'package:userop/userop.dart';
+import 'package:wallet/wallet.dart';
 
 /// `IUserOperation` is a class representing an ERC-4337 User Operation.
 /// Building a UserOperation involves constructing multiple parts and merging them together.
